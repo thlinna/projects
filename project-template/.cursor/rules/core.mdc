@@ -1,0 +1,50 @@
+# Core Architecture & Strategy
+
+## 1. Architecture Principles
+
+- **Maintainability**:  
+  Prioritize clean architecture and modular design. Clearly separate layers (presentation, business logic, data access).
+
+- **Scalability**:  
+  Design components and services with horizontal scalability in mind. Avoid stateful dependencies when possible.
+
+- **Consistency**:  
+  Follow established project conventions rigorously to reduce cognitive load for developers.
+
+- **Loose Coupling & High Cohesion**:  
+  Design components to minimize interdependencies, facilitating easier testing, deployment, and refactoring.
+
+## 2. Project Strategy
+
+- **Incremental Development**:  
+  Implement features incrementally, testing each increment thoroughly before continuing.
+
+- **Refactoring & Technical Debt**:  
+  Regularly schedule refactoring activities to reduce technical debt proactively.
+
+- **Documentation & Communication**:  
+  Clearly document architecture decisions, key abstractions, and interactions between components.
+
+## 3. Technology Decisions
+
+- Choose technologies and libraries that are widely supported, actively maintained, and fit long-term project goals.
+
+- Regularly review external dependencies to ensure they align with your project's quality, security, and maintainability standards.
+
+- Evaluate the impact of introducing new tools carefully, prioritizing stability and maintainability over short-term convenience.
+
+## 4. Quality Assurance
+
+- Integrate automated tests deeply into your development lifecycle (unit, integration, and end-to-end).
+
+- Continuously monitor system health, performance, and security in all environments.
+
+- Actively enforce agreed-upon quality standards through automation, code reviews, and CI/CD pipelines.
+
+## 5. Continuous Improvement
+
+- Regularly assess architecture effectiveness against business needs.
+
+- Encourage feedback from the development team regarding architecture pain points and improvement opportunities.
+
+- Adapt and improve guidelines based on regular retrospectives, aligning project evolution closely with practical realities.
