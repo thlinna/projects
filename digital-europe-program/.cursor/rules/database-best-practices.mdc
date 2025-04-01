@@ -1,0 +1,36 @@
+# Database Best Practices
+
+## Naming Conventions
+- Use `snake_case` for all tables, columns, and indexes.
+- Tables: plural nouns (e.g., `users`, `transactions`).
+- Columns: singular nouns or descriptive adjectives (`user_id`, `created_at`).
+
+## Schema Design
+- Every table should have a clearly defined primary key (`uuid` or auto-increment integer).
+- Foreign key constraints must explicitly enforce relationships between tables.
+- Avoid nullable columns unless justified by business logic.
+
+## Credentials and Access
+- Database credentials must always be loaded from environment variables (`.env` files).
+- Do not store passwords or sensitive keys directly in source code.
+- Use separate database users for different application roles and services, adhering to the Principle of Least Privilege.
+
+## Query Optimization
+- Index columns used frequently for queries (e.g., foreign keys, timestamps, common filters).
+- Limit the number of results with pagination and `LIMIT` clauses.
+- Avoid `SELECT *`; specify explicit column names.
+
+## Security and Integrity
+- Always use parameterized queries or ORM methods to prevent SQL injection.
+- Regularly backup databases and test recovery processes.
+- Enforce SSL/TLS encrypted database connections in production.
+
+## PostgreSQL-Specific Recommendations
+- Prefer JSONB over JSON for storing structured data.
+- Use constraints and validation checks in the schema to enforce data integrity.
+- Clearly document and version database migrations.
+
+## Migration Guidelines
+- Use migration tools (like Alembic, Prisma Migrate, or Flyway) consistently.
+- Every migration must have a rollback strategy documented and tested.
+- Never perform direct manual schema updates on production databases.
