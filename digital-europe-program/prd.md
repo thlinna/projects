@@ -1,302 +1,277 @@
-# PRD: Digital Europe Program -rahoitushakemuksia ideoiva ja laativa tekoälyagenttiverkosto
+# PRD: Digital Europe AI Funding Generator using Agno Framework
 
 ## 1. Product overview
 ### 1.1 Document title and version
-- PRD: Digital Europe Program -rahoitushakemuksia ideoiva ja laativa tekoälyagenttiverkosto
-- Versio: 1.1 (parannettu versio, sisältää tarkennuksia ja laajennuksia)
+- PRD: Digital Europe AI Funding Generator using Agno Framework
+- Version: 1.0
 
 ### 1.2 Product summary
-Tämä tuote on tekoälyagenttiverkosto, joka auttaa eri käyttäjäryhmiä ideoimaan, arvioimaan ja kehittämään laadukkaita rahoitushakemuksia Euroopan unionin Digital Europe Program -rahoitusohjelmaan. Työkalu hyödyntää useita erikoistuneita tekoälyagentteja, jotka työskentelevät yhteistyössä tuottaakseen innovatiivisia ideoita ja muuntaakseen ne hakemuksiksi huomioiden ohjelman arviointikriteerit (relevanssi, toteutuskelpoisuus ja vaikuttavuus).
+This tool is a multi-agent system built on the Agno framework designed to ideate, evaluate, and craft winning funding proposals for the Digital Europe Programme. The system leverages an event-driven, modular architecture where specialized AI agents communicate via Agno’s orchestration layer. The primary agents include:
 
-Työkalun ytimessä on neljä keskeistä tekoälyagenttia (Ideanikkari, Arvioija, Hakija, Rahoittaja). Lisäksi järjestelmään on suunniteltu mahdollisuus laajentaa agenttiverkostoa tulevaisuudessa muiden EU-rahoitusohjelmien (esim. Horizon Europe) ja kansallisten rahoituslähteiden tukemiseen. Jokaisen agentin toiminta perustuu markkinoilla saatavilla oleviin parhaisiin kielimalleihin tai omiin hienoviritettyihin malleihin, jolloin generoidut sisällöt vastaavat rahoitusohjelmien erityistarpeita.
+- **Ideanikkari:** Generates diverse, funding-worthy ideas using the market’s best available AI model.
+- **Arvioija:** Evaluates and refines these ideas with advanced AI, providing feedback and suggested improvements.
+- **Hakija:** Transforms the best ideas into a structured and compelling funding application.
+- **Rahoittaja:** Simulates a funding expert’s review, offering a final check and validation of the proposal.
+
+This document outlines the product requirements and serves as the blueprint for developing a tool that not only improves the success rate of funding applications but also scales for future expansion into additional EU funding streams.
 
 ## 2. Goals
 ### 2.1 Business goals
-- Tehostaa rahoituskelpoisten ideoiden generointia erityisesti Digital Europe Program -rahoitusohjelmaa varten.
-- Kasvattaa rahoitushakemusten hyväksymisprosenttia tuottamalla laadukkaita, kriteerit täyttäviä hakemuksia.
-- Tarjota skaalautuva, SaaS-tyyppinen tekoälyalusta, joka voi laajentua muille EU-rahoitusalueille (Horizon Europe, ym.).
-- Mahdollistaa nopea käyttöönotto myös konsulttitoimistoille, tutkimuslaitoksille ja muille tahoille, jotka tuottavat hakemuksia asiakkailleen.
+- Increase the success rate of funding applications submitted for the Digital Europe Programme.
+- Reduce the time and effort needed to produce high-quality proposals.
+- Create a scalable, SaaS-based solution that can later extend to other EU funding schemes.
+- Establish a competitive, market-leading product that attracts consulting firms and enterprise clients.
 
 ### 2.2 User goals
-- Löytää ja kehittää rahoituskelpoisia projektiaiheita Digital Europe Programin painopisteitä vastaaviksi.
-- Saada tekoälyn perusteltua palautetta ja ideoita hakemuksen parantamiseen.
-- Valmistella valmiita hakemuspohjia, joita voi muokata ja rikastaa tiimin tai asiakkaiden tarpeiden mukaan.
-- Pysyä ajan tasalla rahoitusohjelman päivittyvistä kriteereistä ja täyttää ne tehokkaasti.
+- Generate innovative, funding-ready project ideas quickly.
+- Obtain expert-level feedback and iterative improvements on proposals.
+- Seamlessly convert refined ideas into a fully structured funding application.
+- Stay updated with the latest evaluation criteria from the Digital Europe Programme.
 
 ### 2.3 Non-goals
-- Taata rahoituksen saaminen (työkalu voi parantaa todennäköisyyttä, mutta ei pysty takaamaan lopputulosta).
-- Antaa juridisia tai verotuksellisia neuvoja hakuprosessin laillisiin yksityiskohtiin.
-- Korvata kokonaan inhimillistä arviointia tai projektin käytännönhallintaa (painotus on hakemusten valmistelussa).
-- Tarjota kaikkia EU:n rahoitushakemustyökaluja kattavaa “one-stop-shop” -palvelua heti ensimmäisessä versiossa.
+- Guarantee funding approval.
+- Provide legal, financial, or regulatory advice.
+- Completely replace human judgment or expert review.
+- Cover all aspects of the funding process in the initial version.
 
 ## 3. User personas
 ### 3.1 Key user types
-- **Aloitteleva hakija** (esim. pienyrittäjä tai startup): Tarvitsee ohjausta alusta alkaen.
-- **Kokenut hakija** (esim. PK-yritys tai julkinen toimija): Tarvitsee vahvistusta ja oikolukua hakemuksilleen.
-- **Rahoituskonsultti**: Hoitaa useiden eri asiakkaiden hakemuksia ja haluaa tehokkaan tavan hallita projekteja.
-- **Tutkija/kehittäjä** (esim. tutkimusorganisaatio): Etsii automatisoitua ja strukturoitua tapaa dokumentoida ja perustella hankkeitaan Digital Europe -kriteerien mukaan.
-- **Oppilaitoksen kehittäjä**: Vastaa opetus- ja kehityshankkeiden rahoituksesta ja haluaa tehostaa ideointia ja hakemusten laatimista.
+- **Aloitteleva hakija:** New applicants needing step-by-step guidance.
+- **Kokenut hakija:** Experienced organizations aiming to refine their proposals.
+- **Rahoituskonsultti:** Professionals managing multiple client projects.
+- **Tutkija/kehittäjä:** Research institutions needing structured funding applications.
+- **Oppilaitoksen kehittäjä:** Administrators managing funding for educational projects.
 
 ### 3.2 Basic persona details
-- **Aloitteleva hakija**: Vailla kokemusta EU-rahoitusmaailmasta, tarvitsee kädestä pitäen -opastusta.
-- **Kokenut hakija**: On aiemmin hakenut rahoitusta, tuntee prosessin mutta haluaa tehostaa tekemistä.
-- **Rahoituskonsultti**: Tekee projekteja asiakkailleen, tarvitsee työkalulta moniprojekti- ja tiimihallintaa.
-- **Tutkija**: Toimii tutkimuslaitoksessa, haluaa kaupallistaa idean tai laajentaa tutkimustaan EU-rahoituksella.
-- **Oppilaitoksen kehittäjä**: Vastaa laajemmista digihankkeista, tarvitsee varmistusta hankkeen vaikutusten ja konkreettisten tulosten esittelyyn.
+- **Aloitteleva hakija:** Lacks experience with EU funding and requires detailed guidance.
+- **Kokenut hakija:** Familiar with the process but seeks efficiency and validation.
+- **Rahoituskonsultti:** Works on multiple projects; needs robust project management features.
+- **Tutkija/kehittäjä:** Seeks automated structuring to support research funding.
+- **Oppilaitoksen kehittäjä:** Requires tools to showcase project impact and compliance.
 
 ### 3.3 Role-based access
-- **Peruskäyttäjä**: Kirjautuu sisään, hyödyntää agentteja, luo omia projekteja ja tallentaa hakemuksia.
-- **Tiimin jäsen**: Työskentelee yhteistyöprojekteissa, kommentoi ja muokkaa jaettuja hakemuksia.
-- **Konsultti/hallinnoija**: Hallinnoi useita asiakasprojekteja, jakaa oikeuksia eri asiakkaiden hakemuksiin, haluaa nähdä edistymisen koontinäkymän.
-- **Järjestelmänvalvoja**: Hallinnoi koko järjestelmän teknisiä asetuksia, käyttäjärooleja ja tietoturvaa.
+- **Peruskäyttäjä:** Can create and edit projects, access agent functionalities.
+- **Tiimin jäsen:** Collaborates on shared projects with commenting and version control.
+- **Konsultti/hallinnoija:** Oversees multiple projects and manages client access.
+- **Järjestelmänvalvoja:** Manages technical settings, security, and user roles.
 
 ## 4. Functional requirements
-- **Ideageneraattori (Ideanikkari)** (Prioriteetti: Korkea)
-  - Käyttää tekoälymallia, joka on koulutettu tai hienoviritetty EU-innovaatiokeskusteluilla.
-  - Tarjoaa ideointisession, jossa käyttäjältä kysytään toimialasta, tavoitteista ja resurssien laajuudesta.
-  - Vertaa ideoita Digital Europe Program -painopistealueisiin ja generoi relevantteja ehdotuksia.
+- **Ideageneraattori (Ideanikkari)** (Priority: High)
+  - Leverages Agno’s messaging and orchestration to invoke the best available AI model for generating funding ideas.
+  - Collects input on industry, target market, and project scope.
+  - Matches generated ideas against Digital Europe Programme criteria.
 
-- **Ideoiden arviointi ja jalostaminen (Arvioija)** (Prioriteetti: Korkea)
-  - Tekee perustasoisen analyysin ideoista (esim. vahvuudet, heikkoudet, parannusehdot).
-  - Sisältää suuntaa-antavan **“virtuaalisen pisteytyksen”** Digital Europe -kriteereihin pohjautuen (relevanssi, toteutus, vaikuttavuus).
-  - Tukee iteratiivista keskustelua: käyttäjä voi kysyä tarkennuksia ja perusteluja, tekoäly antaa parannusehdotuksia.
+- **Ideoiden arviointi (Arvioija)** (Priority: High)
+  - Receives ideas from Ideanikkari via Agno’s event triggers.
+  - Utilizes advanced AI to score ideas on relevancy, feasibility, and impact.
+  - Provides actionable improvement suggestions through iterative dialogue with the user.
 
-- **Hakemusten valmistelu (Hakija)** (Prioriteetti: Korkea)
-  - Jäsentää hakemuksen kaikki osiot (esim. tavoitteet, projektisuunnitelma, budjetti) valmiiksi pohjaksi Digital Europe Program -standardien mukaisesti.
-  - Tarjoaa tekoälyn generoimia tekstiehdotuksia kuhunkin hakemuksen osioon käyttäjän syötteiden perusteella.
-  - Auttaa pitämään tekstin pituuden ja rakenteen kohdillaan (varoitukset merkkimäärän tai sivurajoitusten ylittyessä).
+- **Hakemusten valmistelu (Hakija)** (Priority: High)
+  - Structures the funding proposal with required sections (objectives, plan, budget, impact) based on Agno’s modular workflows.
+  - Monitors content length and format according to programme guidelines.
+  - Enables dynamic edits and version tracking.
 
-- **Hakemusten arviointi (Rahoittaja)** (Prioriteetti: Korkea)
-  - Mallintaa rahoittajan näkökulmaa: tarjoaa lopullisen arvioinnin hakemuksen vaikuttavuudesta, selkeydestä ja kriteerien täyttämisestä.
-  - Antaa “Arviointiraportin”, jossa on pisteytys ja suositukset hakemuksen vahvistamiseksi.
-  - Päivittyy säännöllisesti uusia hakukierroksia varten (haun uudet painotukset, budjettikriteerit, painopisteet).
+- **Hakemusten arviointi (Rahoittaja)** (Priority: High)
+  - Simulates expert review by scoring the final proposal.
+  - Generates a detailed “evaluation report” with strengths and areas for improvement.
+  - Uses Agno’s integration capabilities to update scoring criteria as programme rules change.
 
-- **Projektien ja hakemusten hallinta** (Prioriteetti: Keskitaso)
-  - Tuki useille rinnakkaisille projekteille ja roolipohjaiselle yhteistyölle (kommentointi, versiointi).
-  - Aikajanapohjainen näkymä, jossa voi seurata projektin etenemistä (ideointi → arviointi → hakemuksen kirjoitus → loppuarviointi).
-  - Mahdollisuus integroida hakemustekstit projektinhallinnan työkaluihin (Asana, Trello).
+- **Projektinhallinta ja yhteistyö** (Priority: Medium)
+  - Supports multiple projects, role-based access, and collaborative editing.
+  - Provides notifications, version history, and a progress dashboard.
+  - Integrates with popular project management tools (e.g., Asana, Trello).
 
-- **Käyttäjäprofiilin ja konsulttitilin hallinta** (Prioriteetti: Keskitaso)
-  - Konsultti/hallinnoija voi luoda, hallinnoida ja seurata useiden eri asiakkaiden projekteja.
-  - Käyttöoikeuksien valvonta ja roolien määrittely: kuka saa muokata, kuka vain kommentoida tai katsella.
-
-- **Integraatiot ja vienti** (Prioriteetti: Matala)
-  - Mahdollisuus ladata valmiit hakemukset PDF- tai DOCX-muodossa.
-  - (Tulevaisuudessa) Integraatio EU Funding & Tenders -portaaliin, jos avointa rajapintaa tarjotaan.
-  - Integraatio dokumentinhallintajärjestelmiin (esim. Google Drive, Dropbox).
+- **Vienti ja integraatiot** (Priority: Low)
+  - Exports proposals in PDF or DOCX format.
+  - (Optional future feature) Direct integration with the EU Funding & Tenders portal.
 
 ## 5. User experience
 ### 5.1. Entry points & first-time user flow
-- Käyttäjä rekisteröityy (perus- tai konsulttikäyttäjänä) sähköpostilla tai kolmannen osapuolen OAuth-palvelulla.
-- Järjestelmä esittelee lyhyesti agenttien toiminnot (Ideanikkari, Arvioija, Hakija, Rahoittaja) ja rahoitusohjelman tavoitteet.
-- Käyttäjä voi aloittaa uuden projektin valitsemalla “Digital Europe Program” -hakemustavan, jolloin järjestelmä avaa vuorovaikutteisen ideointisession Ideanikkarilla.
-- Käyttäjälle näytetään, miten projekti etenee vaiheittain: idea → arviointi → hakemuksen laatiminen → lopullinen arviointi.
+- User registers via email or OAuth (Google, LinkedIn).
+- Introduction to the multi-agent system and Agno framework’s role in orchestrating the process.
+- Guided setup of a new project with a clear visual progress indicator.
 
 ### 5.2. Core experience
-- **Ideointi Ideanikkarin kanssa**: Tekoälymalli kysyy projektiin liittyviä avainsanoja (toimiala, kohderyhmä, teknologiat).  
-  - Käyttäjä saa 3–5 rahoituskelpoista ideaehdotusta, jotka vastaavat rahoitusohjelman painopisteitä.  
-
-- **Ideoiden jalostus Arvioijalla**: Valitut ideat siirtyvät Arvioijalle, joka tekee virtuaalisen kriteerianalyysin: relevanssi, toteutuskelpoisuus, vaikuttavuus.  
-  - Käyttäjä näkee pisteytyksen ja saa kehitysehdotuksia (esim. “lisää kansainvälistä yhteistyötä”, “selvennä kestävyysnäkökulma”).  
-
-- **Hakemuksen laatiminen Hakijalla**: Käyttäjä laatii hakemusosion kerrallaan. Hakija-agentti generoi pohjatekstin, joka sisältää pakolliset elementit (esim. projektin tavoitteet, aikataulu, budjetti).  
-  - Järjestelmä varoittaa, jos teksti ylittää merkkimäärärajoitukset. Käyttäjä voi muokata pohjaa tai pyytää uutta luonnosta.  
-
-- **Hakemuksen lopullinen arviointi (Rahoittajalla)**: Käyttäjä lähettää luonnostellun hakemuksen Rahoittajalle, joka antaa raportin ohjelman kriteerien näkökulmasta.  
-  - Käyttäjä saa yhteenvedon (esim. pisteet asteikolla 1–5) jokaisesta kriteeristä ja tarkistuslistan parannuksille.  
-  - Kun hakemus on valmis, sen voi ladata PDF- tai DOCX-muodossa, tai tallentaa projektin arkistoon.
+- **Ideointi Ideanikkarin kanssa:** User inputs key project parameters and receives 3–5 funding idea suggestions.
+- **Arviointi Arvioijalla:** Selected ideas are scored and refined via a back-and-forth conversation.
+- **Hakemuksen laatiminen Hakijalla:** The refined idea is transformed into a structured funding proposal, section by section.
+- **Lopullinen arviointi (Rahoittaja):** The complete proposal is reviewed, scored, and feedback is provided before final export.
 
 ### 5.3. Advanced features & edge cases
-- **Tiimityöskentely**: Monen käyttäjän samanaikainen muokkaus samaa projektia konsulttitoimistojen tai tutkimuskonsortioiden tarpeisiin.
-- **Vertailuanalyysi**: Työkalu voi vertailla hakemusta aiemmin rahoitettuihin hankkeisiin (anonymisoidut mallit) ja ehdottaa tarkennuksia.
-- **Hakukriteerien päivitykset**: Agentti tarkkailee EU:n virallisia lähteitä ja päivittää kriteerien painotuksia (esim. uudet teema-alueet).
-- **Budjetin tarkistus**: Hakija-agentti laskee suuntaa-antavat rahoitusosuudet ja varoittaa, jos budjetti ei vastaa haun rajoituksia.
-- **Turvallinen arkistointi**: Käyttäjä voi poistaa kaiken projektidatan pysyvästi tai siirtää sen salattuun arkistoon GDPR-yhteensopivasti.
+- **Tiimityö:** Collaborative editing and multi-user project management.
+- **Reaaliaikainen kriteeripäivitys:** Automatic updates when programme criteria change.
+- **Automatisoitu laadunarviointi:** AI-driven quality checks (e.g., content length, compliance) integrated into each phase.
+- **A/B testaus:** Different AI model configurations for continuous improvement of idea generation.
 
 ### 5.4. UI/UX highlights
-- **Käyttäjäpolun visualisointi**: Näytetään selkeä “edistymispalkki” (Idea → Arviointi → Hakemuksen laatiminen → Loppuarvio).  
-- **Luonnollisen kielen chat**: Käyttäjä keskustelee suoraan tekoälyagenttien kanssa, saa ohjeita ja voi esittää tarkentavia kysymyksiä.  
-- **Responsiivinen suunnittelu**: Taulukko- ja mobiilikäyttö sujuvaa.  
-- **Konsulttinäkymä**: Rooli- ja asiakaskohtainen koonti, josta näkee asiakkaiden projektit ja niiden tilanteen.
+- Visual progress tracker indicating each agent phase.
+- Intuitive chat interface for natural language interactions with agents.
+- Responsive design for both desktop and mobile.
+- Clear notifications and inline guidance for each step.
 
 ## 6. Narrative
-Laura on vastikään perustetun kyberturvallisuusalan startup-yrityksen toimitusjohtaja, joka haluaa löytää uutta rahoitusta tuotekehitykseen ja Euroopan laajuisille markkinoille laajentumiseen. Hän tietää, että Digital Europe Program voi rahoittaa digitaalisia turvallisuusratkaisuja, mutta ei ole varma, miten hioa hakemus kilpailukykyiseksi. Laura rekisteröityy uuteen tekoälyagenttiverkostoon, saa Ideanikkarilta nopeasti toimialaan sopivia ideaehdotuksia, jalostaa niitä Arvioijalla ja laatii lopulta kattavan hakemuksen Hakija-agentin opastuksella. Hän pyytää lopuksi Rahoittaja-agenttia antamaan pistearvion ja viime hetken parannusehdotukset, minkä jälkeen hän on valmis jättämään hakemuksen.
+Matti, pk-yrityksen perustaja, haluaa saada rahoitusta digitalisaatiohankkeelleen. Hän rekisteröityy järjestelmään, jonka Ideanikkari-agentti generoi nopeasti useita rahoituskelpoisia ideoita. Matti valitsee parhaan idean, jota Arvioija-agentti jalostaa antamalla konkreettisia parannusehdotuksia. Hakija-agentti kääntää tämän idean täydeksi hakemukseksi, jonka lopuksi Rahoittaja-agentti arvioi varmistaakseen, että hakemus täyttää kaikki Digital Europe Program -vaatimukset. Näin Matti saa käyttöönsä kilpailukykyisen hakemuksen ja parantaa mahdollisuuksiaan saada rahoitusta.
 
 ## 7. Success metrics
 ### 7.1. User-centric metrics
-- Käyttäjien tyytyväisyys (NPS) sekä palautepisteet tekoälyagenttien relevanssista.
-- Ideasta valmiiksi hakemukseksi -konversioaste.
-- Toistuvien käyttäjien osuus (retention): moniko jatkaa useampaan hakemukseen tai ohjelmaan.
-- Käyttäjän ajan säästö verrattuna perinteiseen hakuprosessiin (esim. prosentuaalinen vähennys ajankäytössä).
+- Käyttäjien tyytyväisyys (NPS) tekoälyagenttien suhteen.
+- Konversioaste ideasta valmiiksi hakemukseksi.
+- Käyttäjien säästetty aika hakemusten valmistuksessa.
+- Uusien ja toistuvien käyttäjien määrä.
 
 ### 7.2. Business metrics
-- Uusien käyttäjätilien määrä (MAU).
-- Palvelun maksullisten tilaajien määrä ja keskimääräinen tuotto (ARPU).
-- Asiakashankintakustannukset (CAC) ja asiakassuhteen elinkaariarvo (LTV).
-- Palvelun laajeneminen muihin rahoitusohjelmiin (esim. määrä, josta laajennus on tuottanut lisätuloa).
+- Uusien käyttäjätilien kasvu ja aktivoitujen projektien määrä.
+- Maksullisten tilaajien osuus ja keskimääräinen tuotto.
+- Asiakashankintakustannukset ja asiakassuhteen elinkaariarvo.
+- Laajentuminen muihin rahoitusohjelmiin.
 
 ### 7.3. Technical metrics
-- Agenttien vasteaika (keskimääräinen ja 95. prosenttipiste).
-- Palvelun käytettävyysaste / uptime (%).
-- Tekoälymallien tuottamien ideoiden “osumatarkkuus” (esim. ihmisten arvioimana).
-- Tiedonsiirron ja tallennuksen turvallisuusmittarit (hyväksytyt tietoturva-auditoinnit).
+- Agenttien vasteajat ja viiveet Agno-arkkitehtuurissa.
+- Palvelun uptime ja suorituskyky.
+- AI-mallien osumatarkkuus ja laadunarviointipisteet.
+- Tietoturva-auditointien tulokset ja GDPR-yhteensopivuus.
 
 ## 8. Technical considerations
 ### 8.1. Integration points
-- Rajapinta EU Funding & Tenders -portaaliin (jos/kun mahdollista).
-- Automatisoitu tiedonhaku Digital Europe Program -sivustolta (kriteeripäivitykset, uudet haut).
-- Pilviarkkitehtuurin kyvykkyys (esim. AWS, Azure) tukemaan suuria kielimalleja ja useita yhtäaikaisia käyttötilanteita.
-- Projektinhallintajärjestelmät (Trello, Asana) ja dokumentinhallinta (Google Drive, Dropbox).
+- Agno-frameworkin modulaarinen viestinvälitys eri agenttien välillä.
+- Rajapinnat EU Funding & Tenders -portaaliin ja muihin ulkoisiin järjestelmiin.
+- Pilvipohjainen infrastruktuuri (esim. AWS, Azure) suurten kielimallien ajamiseen.
+- Integraatiot projektinhallinta- ja dokumentointityökaluihin.
 
 ### 8.2. Data storage & privacy
-- Kaikki projektidatat tallennetaan salattuna ja GDPR-vaatimusten mukaisesti.
-- Käyttäjäkohtaiset projektit säilyvät yksityisinä; vain kutsutut näkevät sen.
-- Mahdollisuus anonymisoida dataa tekoälymallien jatkokehitystä varten.
-- Lokituksen hallinta, josta käy ilmi projektien katselu ja muokkaus.
+- Kaikki projektidata tallennetaan salattuna ja GDPR-vaatimusten mukaisesti.
+- Käyttäjien data säilyy yksityisenä, ja vain valtuutetut käyttäjät voivat tarkastella sitä.
+- Mahdollisuus anonymisoida data tekoälymallien optimointia varten.
+- Lokitus ja säännölliset tietoturva-auditoinnit.
 
 ### 8.3. Scalability & performance
-- Mikropalveluarkkitehtuuri, jossa jokainen agentti toimii omana palvelunaan ja kommunikaatio on reititetty orchestrator-luokan kautta.
-- Dynamo-tyyppiset NoSQL-tietokannat tai perinteiset relaatiotietokannat (riippuen rakenteen tarpeista).
-- Palvelukomponenttien auto-skaalaus ruuhka-aikoina (hakuajan loppumetreillä).
-- Mahdollisuus vaihtaa tai päivittää LLM-mallien tarjoajaa (esim. GPT-4 → GPT-5) kustannusten tai suorituskyvyn mukaan.
+- Hyödynnetään Agno-frameworkin modulaarista rakennetta, jossa jokainen agentti toimii itsenäisenä palveluna.
+- Käytetään mikropalveluarkkitehtuuria, joka mahdollistaa automaattisen skaalautumisen.
+- Nopeat vasteajat ja korkea käytettävyys optimoidaan pilvi-infrastruktuurilla.
+- Mahdollisuus vaihtaa tekoälymallien tarjoajia joustavasti.
 
 ### 8.4. Potential challenges
-- Kustannukset: suurten kielimallien käyttö on kallista, erityisesti korkealla käyttöasteella.
-- Sisällön laatu: mallit saattavat tuottaa hallusinaatioita, joten käyttäjän vahvistus on tärkeää.
-- Rahoituskriteerien jatkuva muutos: järjestelmän tulee pysyä ajan tasalla, jotta se ei ohjaa hakijaa vanhentuneilla tiedoilla.
-- Tietosuoja: käyttäjät syöttävät liikesalaisuuksia ja luottamuksellista dataa, joka täytyy säilyttää erittäin turvallisesti.
+- Korkeat kustannukset suurten kielimallien käytössä.
+- Sisällön hallusinaatioiden riski ja tarpeellinen käyttäjävalidointi.
+- Rahoitusohjelman kriteerien jatkuvat muutokset ja niiden vaikutus automaatioon.
+- Integraatio- ja tietoturvariskit, erityisesti ulkoisten rajapintojen osalta.
 
 ## 9. Milestones & sequencing
 ### 9.1. Project estimate
-- Keskikokoinen: 3–5 kuukautta perusagenttien tuotantovalmiiksi saamiseksi (mukaan lukien pilotointivaihe).
+- Keskikokoinen: 4–6 kuukautta MVP:n kehittämiseen ja pilotointiin.
 
 ### 9.2. Team size & composition
-- Keskikokoinen tiimi: 5–7 henkilöä
-  - 1 tuoteomistaja (liiketoiminta & rahoitusasiat)
+- Tiimi: 6–8 henkilöä
+  - 1 tuoteomistaja/strategi
   - 2–3 tekoäly- ja backend-kehittäjää
   - 1–2 frontend-kehittäjää
   - 1 UX/UI-suunnittelija
-  - 1 testaaja/laadunvarmistaja
+  - 1 QA/tesaaja
 
 ### 9.3. Suggested phases
-- **Vaihe 1**: Ideanikkari- ja Arvioija-agenttien kehitys (4 viikkoa)
-  - Ensimmäinen integrointi suurten kielimallien kanssa
-  - Yksinkertainen käyttöliittymä ja perusrekisteröinti
-  - Perustoiminnot ideageneroinnista ja arvioinnista
-
-- **Vaihe 2**: Hakija-agentin kehitys (4 viikkoa)
-  - Hakemuspohjan automaattinen generoiminen
-  - Merkkimäärä-/rakennetarkistukset
-  - Projektinhallintaominaisuudet (perustason tiimityö)
-
-- **Vaihe 3**: Rahoittaja-agentin kehitys (3 viikkoa)
-  - Arviointi- ja pisteytysominaisuus kriteerien perusteella
-  - Edistyneet integraatiot (dokumentinhallinta)
-  - Julkinen betatestaus
-
-- **Vaihe 4**: Laajennukset, testaus ja optimointi (2–3 viikkoa)
-  - Sisäiset tietoturva-auditoinnit
-  - Skaalaus- ja suorituskykytestit
-  - Tuotantojulkaisu ja jatkokehityssuunnitelma (laajennus muihin rahoitusohjelmiin)
+- **Vaihe 1:** Ideanikkari- ja Arvioija-agenttien kehitys (4 viikkoa)
+  - Integrointi markkinoiden parhaiden kielimallien kanssa Agno-frameworkin avulla.
+  - Peruskäyttöliittymä ja rekisteröinti.
+- **Vaihe 2:** Hakija-agentin kehitys (4 viikkoa)
+  - Hakemuspohjan automaattinen generointi ja tarkistustoiminnot.
+  - Iteratiivinen muokkaus ja sisältövalidaatio.
+- **Vaihe 3:** Rahoittaja-agentin kehitys (3 viikkoa)
+  - Lopullinen arviointi ja pisteytys Digital Europe -kriteereillä.
+  - Yksityiskohtainen arviointiraportti ja palaute.
+- **Vaihe 4:** Pilotointi, testaus ja optimointi (3–4 viikkoa)
+  - Sisäiset tietoturva- ja suorituskykytestit.
+  - Käyttäjäpalautteen keruu ja jatkokehityssuunnitelma.
+  - Laajennusmahdollisuuksien suunnittelu muihin rahoitusohjelmiin.
 
 ## 10. User stories
 ### 10.1. Kirjautuminen ja käyttäjätilin hallinta
-- **ID**: US-001
-- **Description**: Käyttäjänä haluan luoda tilin (tai konsulttitilin) ja kirjautua järjestelmään, jotta voin käyttää agenttiverkostoa ja tallentaa projektejani.
-- **Acceptance criteria**:
-  - Rekisteröityminen sähköpostilla + salasanalla tai OAuth:lla (Google, LinkedIn)
-  - Salasanan nollaus & tietoturvallinen tallennus
-  - Profiilinäkymä, jossa voi päivittää perustietojaan (yritys, rooli)
-  - Roolipohjainen kirjautuminen: peruskäyttäjä tai konsultti/hallinnoija
+- **ID:** US-001  
+- **Description:** Käyttäjänä haluan luoda tilin (tai konsulttitilin) ja kirjautua sisään, jotta voin käyttää agenttiverkostoa ja tallentaa projektejani.  
+- **Acceptance criteria:**
+  - Rekisteröityminen sähköpostilla tai OAuth (Google, LinkedIn)
+  - Salasanan nollaus ja tietoturvallinen tallennus
+  - Profiilin päivitys (yritys, rooli)
+  - Roolipohjainen kirjautuminen
 
 ### 10.2. Uuden projektin luominen
-- **ID**: US-002
-- **Description**: Käyttäjänä haluan luoda uuden rahoitushakemusprojektin, jotta voin aloittaa ideointiprosessin Digital Europe Programiin.
-- **Acceptance criteria**:
-  - Projektille annetaan nimi, lyhyt kuvaus ja toimiala
-  - Mahdollisuus valita “Digital Europe Program” hakutyyppinä
-  - Projektin ID:n ja perustietojen luonti tietokantaan
-  - Käyttäjän ohjaaminen Ideanikkari-agentin kanssa keskusteluun
+- **ID:** US-002  
+- **Description:** Käyttäjänä haluan luoda uuden rahoitushakemusprojektin Digital Europe -ohjelmaa varten, jotta voin aloittaa ideointiprosessin.  
+- **Acceptance criteria:**
+  - Projektille nimi, kuvaus ja toimiala
+  - Valinta "Digital Europe Programme" -hakutyypiksi
+  - Projektin luonti tietokantaan ja ohjaus Ideanikkari-agentin käyttöön
 
 ### 10.3. Ideointi Ideanikkari-agentin kanssa
-- **ID**: US-003
-- **Description**: Käyttäjänä haluan saada tekoälyn generoimia ideaehdotuksia ja kehittää niitä, jotta voin löytää rahoituskelpoisen projektinaiheen.
-- **Acceptance criteria**:
-  - Chat-näkymä, jossa käyttäjä antaa toimiala-/teknologiatietoja
-  - Vähintään 3 ideaehdotusta kerrallaan
-  - Ideoiden tallennus projektin “Idea”-osioon
-  - Uusi ideakierros pyynnöstä, jos käyttäjä ei pidä ehdotuksista
-  - Huomio Digital Europe Programin ajankohtaiset painopisteet (esim. tekoälyn etiikka, digiturvallisuus)
+- **ID:** US-003  
+- **Description:** Käyttäjänä haluan saada tekoälyn generoimia ideaehdotuksia, jotta löydän rahoituskelpoisen projektinaiheen.  
+- **Acceptance criteria:**
+  - Chat-näkymä, jossa käyttäjä syöttää toimialan, kohderyhmän ja teknologiatiedot
+  - Vähintään 3 ideaa per kierros
+  - Ideoiden tallennus projektin "Idea"-osioon
+  - Mahdollisuus käynnistää uusi ideakierros
 
 ### 10.4. Ideoiden arviointi Arvioija-agentin kanssa
-- **ID**: US-004
-- **Description**: Käyttäjänä haluan saada pisteytyksen ja parannusehdotuksia ideoilleni, jotta voin kehittää niistä kilpailukykyisempiä hakemuksia.
-- **Acceptance criteria**:
-  - Ideoiden syöttäminen Arvioija-agentille
-  - Agentti pisteyttää idean kolmella osa-alueella (relevanssi, toteutuskelpoisuus, vaikuttavuus)
-  - Agentti antaa vähintään yhden konkreettisen kehitysehdotuksen idean parantamiseksi
-  - Käyttäjä voi tallentaa tai hylätä muokatun idean
+- **ID:** US-004  
+- **Description:** Käyttäjänä haluan saada pisteytyksen ja parannusehdotuksia ideoilleni, jotta voin kehittää niistä kilpailukykyisempiä hakemuksia.  
+- **Acceptance criteria:**
+  - Ideoiden syöttö Arvioija-agentille
+  - Pisteytys kolmella osa-alueella (relevanssi, toteutuskelpoisuus, vaikuttavuus)
+  - Konkrettien kehitysehdotusten antaminen
+  - Mahdollisuus hyväksyä tai hylätä ehdotukset
 
 ### 10.5. Hakemuksen laatiminen Hakija-agentin kanssa
-- **ID**: US-005
-- **Description**: Käyttäjänä haluan ohjatun prosessin, joka tuottaa valmiin hakemuksen rungon, jotta saan hakemuksen rakenteen nopeasti kuntoon.
-- **Acceptance criteria**:
-  - Hakija-agentti generoi hakemusrungon (otsikot: taustat, tavoitteet, työpaketit, budjetti, vaikutus)
-  - Käyttäjä muokkaa tai hyväksyy ehdotetun tekstin jokaiselle osiolle
-  - Järjestelmä varoittaa, jos tekstin pituus tai merkkimäärä on ylittymässä
-  - Käyttäjä voi siirtyä osioiden välillä ja tallentaa edistymisen
+- **ID:** US-005  
+- **Description:** Käyttäjänä haluan, että Hakija-agentti muuntaa parannetun idean täydeksi hakemukseksi, jotta saan laadukkaan ja jäsennellyn hakemuksen.  
+- **Acceptance criteria:**
+  - Hakija-agentti generoi hakemusrungon (osiot: taustat, tavoitteet, työpaketit, budjetti, vaikutus)
+  - Sisällön validointi (merkkimäärä, rakenne)
+  - Mahdollisuus muokkaukseen jokaisessa osassa
 
 ### 10.6. Hakemuksen arviointi Rahoittaja-agentin kanssa
-- **ID**: US-006
-- **Description**: Käyttäjänä haluan simuloida rahoittajan näkökulmaa ennen hakemuksen lähettämistä, jotta tiedän täyttääkö hakemus kriteerit.
-- **Acceptance criteria**:
-  - Käyttäjä voi pyytää lopullisen pisteytyksen ja raportin valmiista hakemuksesta
-  - Agentti näyttää, missä kohtaa hakemusta on vielä puutteita tai heikkouksia
-  - Käyttäjä saa selkeän palautteen (esim. pisteet asteikolla 1–5 ja sanallinen selite)
-  - Hakemusta voi muokata ja lähettää uudelleen arvioitavaksi ennen vientiä
+- **ID:** US-006  
+- **Description:** Käyttäjänä haluan simuloida rahoittajan tarkastusta ennen hakemuksen lähettämistä, jotta voin varmistaa, että hakemus täyttää Digital Europe -vaatimukset.  
+- **Acceptance criteria:**
+  - Lopullinen pisteytys ja arviointiraportti
+  - Selkeä palaute, joka sisältää pisteet ja kehitysehdotukset
+  - Mahdollisuus tehdä parannuksia ja lähettää uudelleen arvioitavaksi
 
 ### 10.7. Projektien hallinta ja tiimityö
-- **ID**: US-007
-- **Description**: Käyttäjänä haluan työskennellä yhdessä tiimini jäsenten tai asiakkaiden kanssa samassa projektissa, jotta voimme hyödyntää erilaisia osaamisalueita.
-- **Acceptance criteria**:
-  - Projektikutsu sähköpostilla tai käyttäjänimellä
-  - Roolien (katselija, muokkaaja, konsultti, hallinnoija) määrittäminen
-  - Versiohistoria: kenellä oli muokkausoikeus ja mitä muutoksia on tehty
-  - Notifikaatiot tiimin jäsenille merkittävistä muutoksista
+- **ID:** US-007  
+- **Description:** Käyttäjänä haluan työskennellä yhdessä tiimini jäsenten kanssa, jotta voimme yhdessä parantaa hakemuksen laatua.  
+- **Acceptance criteria:**
+  - Projektikutsut sähköpostilla tai käyttäjänimellä
+  - Roolien määrittely (katselija, muokkaaja, konsultti, hallinnoija)
+  - Versiohistoria ja notifikaatiot
 
 ### 10.8. Vienti ja integraatiot
-- **ID**: US-008
-- **Description**: Käyttäjänä haluan viedä valmiin hakemukseni PDF- tai DOCX-muotoon, jotta voin lähettää sen rahoitusportaaliin tai jakaa sen sidosryhmille.
-- **Acceptance criteria**:
-  - Käyttäjä voi ladata hakemuksen PDF- tai DOCX-formaatissa
-  - Hakemuksen vientiin sisältyy automaattinen sisältöjen yhteenveto ja metatiedot (projektin nimi, päivämäärä)
-  - Mahdollisuus tallentaa hakemus suoraan Google Driveen tai Dropboxiin
-  - Tulevaisuudessa (optio) suora siirto EU Funding & Tenders -portaaliin, jos tekninen rajapinta avautuu
+- **ID:** US-008  
+- **Description:** Käyttäjänä haluan viedä valmiin hakemukseni PDF- tai DOCX-muotoon, jotta voin lähettää sen rahoitusportaaliin tai jakaa sen sidosryhmille.  
+- **Acceptance criteria:**
+  - Hakemuksen vienti PDF- tai DOCX-formaattiin
+  - Automatisoitu sisältöjen yhteenveto ja metatiedot
+  - Mahdollisuus tallentaa tiedosto pilvipalveluun (Google Drive, Dropbox)
 
-### 10.9. Hakemuksen päivittäminen rahoituskriteerien muuttuessa
-- **ID**: US-009
-- **Description**: Käyttäjänä haluan varmistaa, että hakemukseni täyttää uusimmat Digital Europe -kriteerit, jotta en lähettäisi vanhentunutta hakemusta.
-- **Acceptance criteria**:
-  - Järjestelmä seuraa EU:n virallisia kanavia kriteeripäivityksistä
-  - Käyttäjä saa ilmoituksen, jos hakemusta tulisi päivittää (esim. uudet teema-alueet)
-  - Agentti ehdottaa kohtia, joihin päivitykset vaikuttavat (esim. “Lisää tietoa saavutettavuudesta”)
-  - Käyttäjä voi soveltaa automaattisia ehdotuksia tai muokata tekstiä käsin
+### 10.9. Hakemuksen päivittäminen kriteerien muuttuessa
+- **ID:** US-009  
+- **Description:** Käyttäjänä haluan, että järjestelmä ilmoittaa, kun Digital Europe -kriteereissä tapahtuu muutoksia, jotta hakemukseni pysyy ajan tasalla.  
+- **Acceptance criteria:**
+  - Järjestelmä seuraa kriteeripäivityksiä reaaliaikaisesti
+  - Ilmoitukset käyttäjälle muutoksista
+  - Agentti ehdottaa muutoksia hakemuksen sisältöön
 
 ### 10.10. Tietoturva ja yksityisyys
-- **ID**: US-010
-- **Description**: Käyttäjänä haluan, että ideani ja hakemukseni pysyvät luottamuksellisina ja EU:n tietosuoja-asetusten mukaisina.
-- **Acceptance criteria**:
+- **ID:** US-010  
+- **Description:** Käyttäjänä haluan, että kaikki syötetyt tiedot pysyvät turvassa ja GDPR-yhteensopivina.  
+- **Acceptance criteria:**
   - Kaikki tiedonsiirto salataan (HTTPS/TLS)
-  - Projekti on oletuksena yksityinen; vain kutsutut näkevät sen
-  - Käyttäjä voi poistaa kaiken dataan liittyvän projektin pysyvästi
-  - Lokitus kaikista muokkauksista ja tietoturva-auditoinnit säännöllisesti
+  - Projektit ovat oletuksena yksityisiä
+  - Käyttäjä voi poistaa projektin tiedot pysyvästi
+  - Lokitus ja säännölliset tietoturva-auditoinnit
 
 ### 10.11. Esimerkkikäyttäjäpolku: Aloitteleva hakija
-- **ID**: US-011
-- **Description**: Aloittelevana hakijana haluan askel askeleelta -opastuksen, joka kulkee idean kehittämisestä rahoittajan virtuaaliseen arviointiin, jotta prosessin jokainen vaihe on selkeä.
-- **Acceptance criteria**:
-  - Käyttäjä saa “opastetun polun”, jossa jokainen agentti esitellään vuorollaan
-  - Sivun yläreunassa on edistymispalkki (vaihe 1/4, 2/4 jne.)
-  - Järjestelmä antaa vihjeitä (tooltipit) päävaiheiden kohdalla (“Nyt siirryt ideoinnista arviointiin”)
-  - Käyttäjä voi antaa palautetta jokaisesta vaiheesta (esim. “Tämä oli selvää / Epäselvää”)
-  - Hakemusta voi lopuksi tarkastella yhtenä kokonaisuutena tai ladata sen tiedostona
+- **ID:** US-011  
+- **Description:** Aloittelevana hakijana haluan askel askeleelta -opastuksen, joka kulkee idean kehittämisestä rahoittajan arviointiin, jotta prosessi on selkeä.  
+- **Acceptance criteria:**
+  - Selkeä opastus jokaisessa vaiheessa (ideointi, arviointi, hakemuksen laatiminen, lopullinen tarkastus)
+  - Edistymispalkki ja tooltipit avustamassa käyttäjää
+  - Mahdollisuus antaa palautetta jokaisesta vaiheesta

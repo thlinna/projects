@@ -1,62 +1,37 @@
-version: '3'
+version: '3.8'
 
 services:
-  # MongoDB-tietokanta
   mongodb:
-    image: mongo:6.0
+    image: mongo:latest
     container_name: dep-mongodb
-    restart: unless-stopped
+    restart: always
     ports:
-      - "27017:27017"
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
     volumes:
       - mongodb_data:/data/db
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME:-admin}
-      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD:-password}
     networks:
       - app-network
 
-  # Backend API
   backend:
-    build:
-      context: ./backend
-      dockerfile: ../docker/Dockerfile.backend.dev
+    build: .
     container_name: dep-backend
-    restart: unless-stopped
+    restart: always
     ports:
-      - "5050:5050"
-    volumes:
-      - ./backend:/app
-      - /app/node_modules
-    environment:
-      - NODE_ENV=development
-      - PORT=5050
-      - MONGO_URI=mongodb://${MONGO_USERNAME:-admin}:${MONGO_PASSWORD:-password}@mongodb:27017/dep?authSource=admin
-      - JWT_SECRET=${JWT_SECRET:-your_jwt_secret}
-      - JWT_EXPIRE=24h
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - 5001:5001
     depends_on:
       - mongodb
-    networks:
-      - app-network
-
-  # Frontend
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: ../docker/Dockerfile.frontend.dev
-    container_name: dep-frontend
-    restart: unless-stopped
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
     environment:
       - NODE_ENV=development
-      - REACT_APP_API_URL=http://localhost:5050/api
-    depends_on:
-      - backend
+      - PORT=5001
+      - MONGO_URI=mongodb://admin:password@mongodb:27017/digital-europe?authSource=admin
+      - JWT_SECRET=jotain_salaista_muutettava_tuotannossa
+      - OPENAI_API_KEY=sinun_openai_api_avain
+      - GEMINI_API_KEY=sinun_gemini_api_avain
+      - OPENROUTER_API_KEY=sinun_openrouter_api_avain
+      - DEFAULT_AI_PROVIDER=openai
     networks:
       - app-network
 
@@ -66,4 +41,3 @@ networks:
 
 volumes:
   mongodb_data:
-    driver: local 
