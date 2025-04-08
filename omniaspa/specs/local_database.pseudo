@@ -1,0 +1,167 @@
+// File: specs/local_database.pseudo
+// Version: 1.0
+// Description: Handles persistence of project data, including context, state, and history, to local storage.
+
+MODULE LocalDatabase
+
+  // --- Dependencies ---
+  // None directly, interacts with the file system or a local DB engine (e.g., SQLite, file-based JSON)
+
+  // --- Storage Mechanism (Conceptual) ---
+  // Assumes data is stored per project, likely in structured files (e.g., JSON) or a simple DB.
+  // Example structure: /data/{project_id}/context.json, /data/{project_id}/workflow_state.json
+
+  // --- Core Data Structures (Reference - Defined in other modules) ---
+  // ProjectContext: { ideas: LIST<Idea>, evaluations: LIST<Evaluation>, drafts: LIST<DraftSection>, history: LIST<HistoryEntry>, final_proposal: { ... } }
+  // ProjectWorkflowState: { project_id, current_phase, active_idea_id, iteration_count, convergence_status, history: LIST<STRING> }
+  // HistoryEntry: { timestamp, agent, action, details... } or { timestamp, source: "user", type, content }
+
+  // --- Functions ---
+
+  FUNCTION save_project_context(project_id, context_data):
+    // TDD_ANCHOR: test_db_save_context_creates_file
+    // TDD_ANCHOR: test_db_save_context_overwrites_correctly
+    // TDD_ANCHOR: test_db_save_context_handles_serialization
+    LOG "Saving project context for: " + project_id
+    DEFINE file_path = build_context_path(project_id)
+    TRY
+      SERIALIZE context_data TO JSON string // Or other format
+      WRITE string TO file_path (overwrite)
+      LOG "Context saved successfully."
+    CATCH Error AS e:
+      LOG_ERROR "Failed to save project context for " + project_id + ": " + e.message
+      // Handle error appropriately (e.g., retry, notify user)
+    END TRY
+  END FUNCTION
+
+  FUNCTION load_project_context(project_id): RETURNS DICTIONARY OR NULL
+    // TDD_ANCHOR: test_db_load_context_returns_data
+    // TDD_ANCHOR: test_db_load_context_returns_null_for_missing
+    // TDD_ANCHOR: test_db_load_context_handles_deserialization_error
+    LOG "Loading project context for: " + project_id
+    DEFINE file_path = build_context_path(project_id)
+    IF file_path DOES NOT EXIST:
+      LOG "Context file not found for project: " + project_id
+      RETURN NULL
+    ENDIF
+
+    TRY
+      DEFINE file_content = READ file_path
+      DEFINE context_data = DESERIALIZE JSON string file_content TO DICTIONARY
+      LOG "Context loaded successfully."
+      RETURN context_data
+    CATCH Error AS e:
+      LOG_ERROR "Failed to load or parse project context for " + project_id + ": " + e.message
+      RETURN NULL // Or raise an exception
+    END TRY
+  END FUNCTION
+
+  FUNCTION save_workflow_state(project_id, state_data):
+    // TDD_ANCHOR: test_db_save_workflow_state
+    LOG "Saving workflow state for: " + project_id
+    DEFINE file_path = build_workflow_state_path(project_id)
+    TRY
+      SERIALIZE state_data TO JSON string
+      WRITE string TO file_path (overwrite)
+      LOG "Workflow state saved successfully."
+    CATCH Error AS e:
+      LOG_ERROR "Failed to save workflow state for " + project_id + ": " + e.message
+    END TRY
+  END FUNCTION
+
+  FUNCTION load_workflow_state(project_id): RETURNS ProjectWorkflowState OR NULL
+    // TDD_ANCHOR: test_db_load_workflow_state_returns_data
+    // TDD_ANCHOR: test_db_load_workflow_state_returns_null_for_missing
+    LOG "Loading workflow state for: " + project_id
+    DEFINE file_path = build_workflow_state_path(project_id)
+    IF file_path DOES NOT EXIST:
+      LOG "Workflow state file not found for project: " + project_id
+      RETURN NULL
+    ENDIF
+
+    TRY
+      DEFINE file_content = READ file_path
+      DEFINE state_data = DESERIALIZE JSON string file_content TO ProjectWorkflowState
+      LOG "Workflow state loaded successfully."
+      RETURN state_data
+    CATCH Error AS e:
+      LOG_ERROR "Failed to load or parse workflow state for " + project_id + ": " + e.message
+      RETURN NULL
+    END TRY
+  END FUNCTION
+
+  FUNCTION get_all_project_summaries(): RETURNS LIST<ProjectSummary>
+    // TDD_ANCHOR: test_db_get_project_summaries_empty
+    // TDD_ANCHOR: test_db_get_project_summaries_multiple
+    // TDD_ANCHOR: test_db_get_project_summaries_reads_state
+    LOG "Fetching all project summaries"
+    DEFINE summaries = []
+    DEFINE project_ids = list_project_directories() // Get list of all project IDs (e.g., from directory names)
+
+    FOR project_id IN project_ids:
+      DEFINE state = load_workflow_state(project_id)
+      IF state IS NOT NULL:
+        DEFINE summary = CREATE ProjectSummary(
+          id=project_id,
+          status=state.current_phase,
+          last_updated=get_last_modified_time(build_workflow_state_path(project_id)) // Get file timestamp
+        )
+        ADD summary TO summaries
+      ELSE:
+        LOG_WARN "Could not load state for project summary: " + project_id
+      ENDIF
+    ENDFOR
+    RETURN summaries
+  END FUNCTION
+
+  FUNCTION add_history_entry(project_id, history_entry):
+      // TDD_ANCHOR: test_db_add_history_entry_appends
+      // TDD_ANCHOR: test_db_add_history_entry_saves
+      LOG "Adding history entry to project: " + project_id
+      DEFINE context = load_project_context(project_id)
+      IF context IS NULL:
+          LOG_ERROR "Cannot add history entry, context not found for project: " + project_id
+          RETURN FALSE
+      ENDIF
+
+      IF "history" NOT IN context:
+          SET context["history"] = []
+      ENDIF
+
+      ADD history_entry TO context["history"]
+      CALL save_project_context(project_id, context) // Save the updated context
+      RETURN TRUE
+  END FUNCTION
+
+
+  // --- Helper Functions (Platform/Implementation Specific) ---
+  FUNCTION build_context_path(project_id): RETURNS STRING
+    // TDD_ANCHOR: test_db_build_context_path
+    RETURN "data/" + project_id + "/context.json" // Example path
+  END FUNCTION
+
+  FUNCTION build_workflow_state_path(project_id): RETURNS STRING
+    // TDD_ANCHOR: test_db_build_workflow_state_path
+    RETURN "data/" + project_id + "/workflow_state.json" // Example path
+  END FUNCTION
+
+  FUNCTION list_project_directories(): RETURNS LIST<STRING>
+    // TDD_ANCHOR: test_db_list_project_dirs
+    // Logic to scan the base data directory (e.g., "data/") and return sub-directory names (project IDs)
+    RETURN [] // Placeholder
+  END FUNCTION
+
+  FUNCTION get_last_modified_time(file_path): RETURNS DATETIME
+      // TDD_ANCHOR: test_db_get_last_modified
+      // Logic to get the filesystem last modified timestamp
+      RETURN NOW() // Placeholder
+  END FUNCTION
+
+  // --- Data Structures (for UI Summary) ---
+  DEFINE STRUCTURE ProjectSummary:
+    id AS STRING
+    status AS STRING
+    last_updated AS DATETIME
+  END STRUCTURE
+
+END MODULE

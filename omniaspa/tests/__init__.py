@@ -1,0 +1,1 @@
+"""Tests for the EU Digital Europe Programme Proposal Generator."""

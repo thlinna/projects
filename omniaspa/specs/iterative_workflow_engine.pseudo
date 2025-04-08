@@ -1,0 +1,307 @@
+// File: specs/iterative_workflow_engine.pseudo
+// Version: 1.0
+// Description: Manages the state and progression of the proposal generation process, orchestrating agent tasks iteratively.
+
+MODULE IterativeWorkflowEngine
+
+  // --- Dependencies ---
+  IMPORT AgentCollaborationFramework
+  IMPORT LocalDatabase
+  IMPORT UserInterface // To notify UI of progress/status changes
+
+  // --- State ---
+  DEFINE project_states AS MAP<project_id, ProjectWorkflowState>
+
+  DEFINE STRUCTURE ProjectWorkflowState:
+    project_id AS STRING
+    current_phase AS STRING // e.g., 'Ideation', 'Evaluation', 'Refinement', 'Drafting', 'Finalization', 'Completed', 'Halted'
+    active_idea_id AS STRING OR NULL // The idea currently being worked on
+    iteration_count AS INTEGER
+    convergence_status AS BOOLEAN // Flag indicating if further improvements seem unlikely
+    history AS LIST<STRING> // Log of major state transitions
+  END STRUCTURE
+
+  // --- Constants ---
+  DEFINE MAX_ITERATIONS_PER_IDEA = 10 // Safety break
+  DEFINE REQUIRED_EVALUATIONS = ["ProgrammeExpert", "StartupFounder", "PracticalJudge"]
+
+  // --- Initialization ---
+  FUNCTION start_new_project(project_id, initial_user_input=NULL):
+    // TDD_ANCHOR: test_start_new_project_initial_state
+    // TDD_ANCHOR: test_start_new_project_triggers_ideation
+    IF project_id IN project_states:
+      LOG_ERROR "Project already exists: " + project_id
+      RETURN
+    ENDIF
+
+    DEFINE initial_state = CREATE ProjectWorkflowState(
+      project_id=project_id,
+      current_phase='Ideation',
+      active_idea_id=NULL,
+      iteration_count=0,
+      convergence_status=FALSE,
+      history=["Project started"]
+    )
+    SET project_states[project_id] = initial_state
+    LocalDatabase.save_workflow_state(project_id, initial_state)
+    UserInterface.update_project_status(project_id, initial_state)
+
+    // Trigger the first step: Initial Idea Generation
+    DEFINE task_details = { type: "generate_initial_ideas", user_input: initial_user_input }
+    AgentCollaborationFramework.assign_task("CreativeIdeator", task_details)
+    LOG "Workflow started for project: " + project_id + ". Initial task assigned to CreativeIdeator."
+  END FUNCTION
+
+  // --- Core Logic: State Transitions based on Agent Results ---
+  FUNCTION notify_update(project_id, agent_role, agent_result):
+    // TDD_ANCHOR: test_notify_update_loads_state
+    // TDD_ANCHOR: test_notify_update_saves_state
+    // TDD_ANCHOR: test_notify_update_handles_unknown_project
+    IF project_id NOT IN project_states:
+      LOG_ERROR "Received update for unknown project: " + project_id
+      RETURN
+    ENDIF
+
+    DEFINE state = project_states[project_id]
+    DEFINE context = LocalDatabase.load_project_context(project_id) // Get latest context
+
+    LOG "Workflow notified: Project " + project_id + ", Agent " + agent_role + ", Action: " + agent_result.history_entry.action
+
+    // --- State Machine Logic ---
+    // Decide next action based on current phase and agent result
+    CASE state.current_phase:
+      WHEN 'Ideation':
+        // TDD_ANCHOR: test_workflow_ideation_to_evaluation
+        IF agent_role == "CreativeIdeator" AND agent_result.history_entry.action == "generated_initial_ideas":
+          // Ideas generated, move to evaluation
+          DEFINE new_ideas = context.ideas // Assuming context was updated by framework
+          IF new_ideas IS NOT EMPTY:
+            // Pick the first new idea to start evaluating (can be more complex logic)
+            DEFINE idea_to_evaluate = new_ideas[0] // Assuming ideas have status 'new'
+            SET state.active_idea_id = idea_to_evaluate.id
+            SET state.current_phase = 'Evaluation'
+            SET state.iteration_count = 0 // Reset iteration count for the new idea
+            LOG "Moving to Evaluation phase for idea: " + idea_to_evaluate.id
+            CALL trigger_evaluations(project_id, idea_to_evaluate)
+          ELSE:
+            LOG "Ideator finished but no new ideas found. Halting?" // Or retry?
+            SET state.current_phase = 'Halted'
+          ENDIF
+        ENDIF
+
+      WHEN 'Evaluation':
+        // TDD_ANCHOR: test_workflow_evaluation_completeness
+        // TDD_ANCHOR: test_workflow_evaluation_to_refinement
+        // TDD_ANCHOR: test_workflow_evaluation_to_drafting
+        // TDD_ANCHOR: test_workflow_evaluation_to_discard
+        // Check if all required evaluations for the active idea are complete
+        IF check_evaluations_complete(context, state.active_idea_id):
+          DEFINE idea = find_idea_by_id(context.ideas, state.active_idea_id)
+          DEFINE judge_critique = find_evaluation_by_agent(context.evaluations, state.active_idea_id, "PracticalJudge")
+
+          IF judge_critique suggests "discard": // Logic based on critique content
+             LOG "Judge recommended discarding idea: " + state.active_idea_id
+             CALL mark_idea_as_discarded(context, state.active_idea_id)
+             CALL select_next_idea_or_halt(state, context)
+          ELSE IF judge_critique suggests "improvement":
+             LOG "Moving to Refinement phase for idea: " + state.active_idea_id
+             SET state.current_phase = 'Refinement'
+             SET state.iteration_count += 1
+             CALL trigger_refinement(project_id, idea, judge_critique) // Pass critique as feedback
+          ELSE: // Assume ready for drafting if not discarded or needing refinement
+             LOG "Moving to Drafting phase for idea: " + state.active_idea_id
+             SET state.current_phase = 'Drafting'
+             CALL trigger_drafting(project_id, idea)
+          ENDIF
+        ELSE:
+          LOG "Waiting for more evaluations for idea: " + state.active_idea_id
+          // No state change, wait for next agent result
+        ENDIF
+
+      WHEN 'Refinement':
+        // TDD_ANCHOR: test_workflow_refinement_to_evaluation
+        // TDD_ANCHOR: test_workflow_refinement_max_iterations
+        IF agent_role == "CreativeIdeator" AND agent_result.history_entry.action == "refined_idea":
+          IF state.iteration_count >= MAX_ITERATIONS_PER_IDEA:
+            LOG "Max refinement iterations reached for idea: " + state.active_idea_id + ". Moving to drafting."
+            SET state.current_phase = 'Drafting'
+            DEFINE refined_idea = find_idea_by_id(context.ideas, state.active_idea_id) // Get latest version
+            CALL trigger_drafting(project_id, refined_idea)
+          ELSE:
+            LOG "Idea refined. Re-evaluating idea: " + state.active_idea_id
+            SET state.current_phase = 'Evaluation' // Go back to evaluation
+            DEFINE refined_idea = find_idea_by_id(context.ideas, state.active_idea_id) // Get latest version
+            CALL trigger_evaluations(project_id, refined_idea)
+          ENDIF
+        ENDIF
+
+      WHEN 'Drafting':
+        // TDD_ANCHOR: test_workflow_drafting_completeness
+        // TDD_ANCHOR: test_workflow_drafting_to_review
+        // TDD_ANCHOR: test_workflow_drafting_to_finalization
+        // Check if sections are drafted, reviewed, revised
+        IF agent_role == "ProposalWriter" AND agent_result.history_entry.action == "drafted_section":
+           // Section drafted, trigger review by Expert and Judge
+           DEFINE drafted_section = find_draft_by_id(context.drafts, agent_result.history_entry.draft_id) // Assuming ID is in history
+           CALL trigger_draft_review(project_id, drafted_section)
+        ELSE IF agent_role == "PracticalJudge" AND agent_result.history_entry.action == "critiqued_draft":
+           // Draft critiqued, trigger revision by Writer
+           DEFINE draft_to_revise = find_draft_by_id(context.drafts, agent_result.history_entry.draft_id)
+           DEFINE critique = agent_result.updates.draft_reviews[0] // Assuming critique is in updates
+           CALL trigger_draft_revision(project_id, draft_to_revise, critique)
+        ELSE IF agent_role == "ProposalWriter" AND agent_result.history_entry.action == "revised_section":
+           // Section revised, potentially mark as 'approved' or re-review? Simpler: assume approved for now.
+           CALL mark_draft_as_approved(context, agent_result.history_entry.draft_id)
+           // Check if all sections for the active idea are approved
+           IF check_all_sections_approved(context, state.active_idea_id):
+              LOG "All sections approved. Moving to Finalization for idea: " + state.active_idea_id
+              SET state.current_phase = 'Finalization'
+              DEFINE final_idea = find_idea_by_id(context.ideas, state.active_idea_id)
+              CALL trigger_final_assembly(project_id, final_idea)
+           ELSE:
+              // Trigger drafting of next section?
+              CALL trigger_next_draft_section(project_id, state.active_idea_id, context)
+           ENDIF
+        ENDIF
+
+      WHEN 'Finalization':
+        // TDD_ANCHOR: test_workflow_finalization_to_completed
+        IF agent_role == "ProposalWriter" AND agent_result.history_entry.action == "assembled_final_proposal":
+          LOG "Proposal assembled. Project Completed for idea: " + state.active_idea_id
+          SET state.current_phase = 'Completed'
+          // Final proposal is in context.final_proposal
+          UserInterface.notify_completion(project_id, context.final_proposal.content_md)
+        ENDIF
+
+      WHEN 'Completed':
+      WHEN 'Halted':
+        LOG "Workflow in terminal state: " + state.current_phase
+        // No further automatic actions
+
+    ENDCASE
+
+    // Save updated state and notify UI
+    ADD agent_result.history_entry TO state.history // Add detailed action to workflow history
+    LocalDatabase.save_workflow_state(project_id, state)
+    UserInterface.update_project_status(project_id, state, agent_result.history_entry) // Send update to UI
+  END FUNCTION
+
+  // --- Helper Functions for Triggering Agent Tasks ---
+  FUNCTION trigger_evaluations(project_id, idea):
+    // TDD_ANCHOR: test_trigger_evaluations_all_agents
+    LOG "Triggering evaluations for idea: " + idea.id
+    FOR agent_role IN REQUIRED_EVALUATIONS:
+      DEFINE task_details = { type: "evaluate_idea", idea: idea } // Or "assess_viability" for Founder
+      IF agent_role == "StartupFounder": task_details.type = "assess_viability"
+      IF agent_role == "PracticalJudge": task_details.type = "critique_idea" // Judge needs other evals, handled later? Or pass context? Pass context.
+      AgentCollaborationFramework.assign_task(agent_role, task_details)
+    ENDFOR
+  END FUNCTION
+
+  FUNCTION trigger_refinement(project_id, idea, feedback):
+    // TDD_ANCHOR: test_trigger_refinement
+    LOG "Triggering refinement for idea: " + idea.id
+    DEFINE task_details = { type: "refine_idea", idea: idea, feedback: feedback }
+    AgentCollaborationFramework.assign_task("CreativeIdeator", task_details)
+  END FUNCTION
+
+  FUNCTION trigger_drafting(project_id, idea):
+    // TDD_ANCHOR: test_trigger_drafting_first_section
+    LOG "Triggering drafting for idea: " + idea.id
+    // Start with the first section, e.g., "Introduction"
+    DEFINE first_section = "Introduction" // Get from a predefined list/template
+    DEFINE task_details = { type: "draft_section", idea: idea, section_name: first_section }
+    AgentCollaborationFramework.assign_task("ProposalWriter", task_details)
+  END FUNCTION
+
+  FUNCTION trigger_draft_review(project_id, draft_section):
+     // TDD_ANCHOR: test_trigger_draft_review
+     LOG "Triggering review for draft: " + draft_section.id
+     DEFINE task_expert = { type: "review_draft", draft: draft_section }
+     AgentCollaborationFramework.assign_task("ProgrammeExpert", task_expert)
+     DEFINE task_judge = { type: "review_draft_section", draft_section: draft_section } // Judge might need expert review first? Assume parallel for now.
+     AgentCollaborationFramework.assign_task("PracticalJudge", task_judge)
+  END FUNCTION
+
+  FUNCTION trigger_draft_revision(project_id, draft_section, critique):
+     // TDD_ANCHOR: test_trigger_draft_revision
+     LOG "Triggering revision for draft: " + draft_section.id
+     DEFINE task_details = { type: "revise_section", draft_section: draft_section, critiques: critique } // Pass critiques
+     AgentCollaborationFramework.assign_task("ProposalWriter", task_details)
+  END FUNCTION
+
+  FUNCTION trigger_next_draft_section(project_id, idea_id, context):
+      // TDD_ANCHOR: test_trigger_next_draft_section
+      // Logic to determine the next section to draft based on approved/existing ones
+      DEFINE next_section_name = determine_next_section(context, idea_id)
+      IF next_section_name:
+          LOG "Triggering drafting for next section: " + next_section_name
+          DEFINE idea = find_idea_by_id(context.ideas, idea_id)
+          DEFINE task_details = { type: "draft_section", idea: idea, section_name: next_section_name }
+          AgentCollaborationFramework.assign_task("ProposalWriter", task_details)
+      ELSE:
+          LOG "All sections seem to be drafted/approved for idea: " + idea_id // Should have moved to Finalization
+      ENDIF
+  END FUNCTION
+
+  FUNCTION trigger_final_assembly(project_id, final_idea):
+    // TDD_ANCHOR: test_trigger_final_assembly
+    LOG "Triggering final assembly for idea: " + final_idea.id
+    DEFINE task_details = { type: "assemble_final_proposal", idea: final_idea }
+    AgentCollaborationFramework.assign_task("ProposalWriter", task_details)
+  END FUNCTION
+
+  // --- Helper Functions for State Checks ---
+  FUNCTION check_evaluations_complete(context, idea_id):
+    // TDD_ANCHOR: test_check_evaluations_complete_true
+    // TDD_ANCHOR: test_check_evaluations_complete_false
+    DEFINE received_evals = []
+    FOR evaluation IN context.evaluations:
+      IF evaluation.idea_id == idea_id:
+         ADD evaluation.agent TO received_evals
+      ENDIF
+    ENDFOR
+    RETURN set(received_evals) == set(REQUIRED_EVALUATIONS)
+  END FUNCTION
+
+  FUNCTION check_all_sections_approved(context, idea_id):
+      // TDD_ANCHOR: test_check_all_sections_approved_true
+      // TDD_ANCHOR: test_check_all_sections_approved_false
+      DEFINE required_sections = get_required_proposal_sections() // From config/template
+      DEFINE approved_sections = []
+      FOR draft IN context.drafts:
+          IF draft.idea_id == idea_id AND draft.status == 'approved': // Need status field in DraftSection
+              ADD draft.section TO approved_sections
+          ENDIF
+      ENDFOR
+      RETURN set(approved_sections) == set(required_sections)
+  END FUNCTION
+
+  FUNCTION select_next_idea_or_halt(state, context):
+      // TDD_ANCHOR: test_select_next_idea
+      // TDD_ANCHOR: test_select_next_idea_halts
+      // Find the next 'new' idea in the context
+      DEFINE next_idea = find_next_new_idea(context.ideas)
+      IF next_idea:
+          LOG "Selecting next idea for evaluation: " + next_idea.id
+          SET state.active_idea_id = next_idea.id
+          SET state.current_phase = 'Evaluation'
+          SET state.iteration_count = 0
+          CALL trigger_evaluations(state.project_id, next_idea)
+      ELSE:
+          LOG "No more new ideas to evaluate. Halting project."
+          SET state.current_phase = 'Halted'
+      ENDIF
+  END FUNCTION
+
+  // --- Utility functions (to be implemented fully) ---
+  FUNCTION find_idea_by_id(ideas_list, id): RETURN idea // TDD_ANCHOR: test_find_idea_by_id
+  FUNCTION find_evaluation_by_agent(eval_list, idea_id, agent_role): RETURN evaluation // TDD_ANCHOR: test_find_evaluation_by_agent
+  FUNCTION mark_idea_as_discarded(context, idea_id): MODIFY context // TDD_ANCHOR: test_mark_idea_discarded
+  FUNCTION mark_draft_as_approved(context, draft_id): MODIFY context // TDD_ANCHOR: test_mark_draft_approved
+  FUNCTION find_draft_by_id(draft_list, id): RETURN draft // TDD_ANCHOR: test_find_draft_by_id
+  FUNCTION find_next_new_idea(ideas_list): RETURN idea OR NULL // TDD_ANCHOR: test_find_next_new_idea
+  FUNCTION get_required_proposal_sections(): RETURN LIST<STRING> // TDD_ANCHOR: test_get_required_sections
+  FUNCTION determine_next_section(context, idea_id): RETURN STRING OR NULL // TDD_ANCHOR: test_determine_next_section
+
+END MODULE
