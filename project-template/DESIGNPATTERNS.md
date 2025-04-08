@@ -127,7 +127,7 @@ Check Inbox (wait) -> Jos uusia viestejä tulee, Summarize Email.
 
 ```mermaid
 flowchart LR
-    A[Start] --> B[Check Inbox (wait)]
+    A[Start] --> B["Check Inbox (wait)"]
     B --> C[New Email Arrives?]
     C -- Yes --> D[Summarize Email]
     C -- No --> B
@@ -761,7 +761,7 @@ flowchart LR
     I --> J[Write Code]
     J --> K[Update Progress]
     K --> L[Task Completed]
-
+```
 
 
 ⸻
@@ -787,7 +787,6 @@ An agent retrieves a user’s past interactions to provide personalized recommen
     D --> E[Generate Response]
     E --> F[Provide Answer]
 ```
-
 
 
 ⸻
