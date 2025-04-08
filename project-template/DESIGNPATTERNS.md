@@ -428,12 +428,12 @@ flowchart LR
 Useita agentteja (esim. eri roolit: "AssistantAgent", "UserProxyAgent") jotka keskustelevat keskenään suorittaakseen monimutkaisia tehtäviä. Autogen tarjoaa helpon tavan käynnistää useita agentteja ja hallita niiden vuorovaikutusta.
 
 **Ohje (milloin käyttää)**
-	•	Kun halutaan hajauttaa tehtävää useammalle roolille (esim. koodin kirjoittaja, koodin tarkastaja).
-	•	Kun yksi agentti tuottaa tekstiä/koodia ja toinen arvioi tai täydentää sitä.
+ * Kun halutaan hajauttaa tehtävää useammalle roolille (esim. koodin kirjoittaja, koodin tarkastaja).
+ * Kun yksi agentti tuottaa tekstiä/koodia ja toinen arvioi tai täydentää sitä.
 
 **Esimerkki**
-	•	Agentti A: "Koodaa minulle funktion X"
-	•	Agentti B: "Tarkista onko koodi syntaksiltaan oikein, testaa se."
+ * Agentti A: "Koodaa minulle funktion X"
+ * Agentti B: "Tarkista onko koodi syntaksiltaan oikein, testaa se."
 > **Huom:** Voit tallentaa yllä olevan tekstin sellaisenaan `.md`-tiedostona, jonka voit avata tai jakaa eteenpäin.  
 
 ```mermaid
@@ -453,12 +453,12 @@ flowchart LR
 Agentti (LLM) voi kutsua ulkoisia työkaluja (funktioita, API-pyyntöjä, tiedostojärjestelmää), kun se tarvitsee lisätietoa tai suorittaa tehtävänsä. Autogen abstrahoi nämä "tool" kutsut selkeäksi rajapinnaksi.
 
 **Ohje (milloin käyttää)**
-	•	Kun agentilla on tarve käyttää ohjelman sisäisiä funktioita, kolmannen osapuolen kirjastoja tai API-rajapintoja.
-	•	Kun halutaan laajentaa LLM:n kyvykkyyttä reaalimaailman toimenpiteisiin.
+ * Kun agentilla on tarve käyttää ohjelman sisäisiä funktioita, kolmannen osapuolen kirjastoja tai API-rajapintoja.
+ * Kun halutaan laajentaa LLM:n kyvykkyyttä reaalimaailman toimenpiteisiin.
 
 **Esimerkki**
-	•	Agentti: "Hae tämän userID:n tiedot tietokannasta, sitten laadi raportti."
-	•	Työkalu: fetch_user_data(userID)
+ * Agentti: "Hae tämän userID:n tiedot tietokannasta, sitten laadi raportti."
+ * Työkalu: fetch_user_data(userID)
 
 ```mermaid  
 flowchart LR
@@ -475,11 +475,11 @@ flowchart LR
 Sama agentti tuottaa ensin luonnoksen, lukee sen "kriittisenä arvioijana" ja korjaa mahdolliset virheet. Autogen mahdollistaa tämän "itsepalautteen" rakenteen, jossa agentti ikään kuin testaa omaa tuotostaan.
 
 **Ohje (milloin käyttää)**
-	•	Kun tarvitaan automaattinen laaduntarkastus: agentti arvioi ensin itse vastaustaan ennen kuin se päätyy lopulliseen tulokseen.
-	•	Esimerkiksi koodia generoitaessa: agentti generoi koodin, testaa sen tai käy läpi loogisia tarkistuksia, tekee korjauksia.
+ * Kun tarvitaan automaattinen laaduntarkastus: agentti arvioi ensin itse vastaustaan ennen kuin se päätyy lopulliseen tulokseen.
+ * Esimerkiksi koodia generoitaessa: agentti generoi koodin, testaa sen tai käy läpi loogisia tarkistuksia, tekee korjauksia.
 
 **Esimerkki**
-	•	Agentti laatii Python-funktion, sitten agentti itse suorittaa "lint" - tai testiskenaarion, huomaa virheitä ja palaa korjaamaan ne.
+ * Agentti laatii Python-funktion, sitten agentti itse suorittaa "lint" - tai testiskenaarion, huomaa virheitä ja palaa korjaamaan ne.
 
 ```mermaid
 flowchart LR
@@ -496,12 +496,12 @@ flowchart LR
 Agentti laatii ensin korkean tason suunnitelman ("plan"), jonka pohjalta se suorittaa vaiheittain osatehtäviä (joihin voi sisältyä "tool" kutsuja, kysymyksiä toiselle agentille tai sisäistä pohdintaa).
 
 **Ohje (milloin käyttää)**
-	•	Kun tehtävä on monimutkainen ja kannattaa ensin selventää vaiheet, ennen kuin aletaan tuottaa lopullista ratkaisua.
-	•	Esim. iso projekti: "Laadi koodi, testit ja dokumentaatio."
+ * Kun tehtävä on monimutkainen ja kannattaa ensin selventää vaiheet, ennen kuin aletaan tuottaa lopullista ratkaisua.
+ * Esim. iso projekti: "Laadi koodi, testit ja dokumentaatio."
 
 **Esimerkki**
-	•	Agentti: "Suunnitellaan 1) Tietorakenne, 2) Metodit, 3) Testit, 4) Dokumentaatio."
-	•	Sitten se käy vaiheet läpi yksi kerrallaan.
+ * Agentti: "Suunnitellaan 1) Tietorakenne, 2) Metodit, 3) Testit, 4) Dokumentaatio."
+ * Sitten se käy vaiheet läpi yksi kerrallaan.
 
 ```mermaid
 flowchart LR
@@ -519,11 +519,11 @@ flowchart LR
 Agenttien viestit tallentuvat keskusteluhistoriaan ja/tai pysyvään talletukseen (tiedosto-/vektorikanta). Autogen mahdollistaa "muistin" ja "kontekstin" säilyttämisen pidempään, esim. monen vuorovaikutuksen yli.
 
 **Ohje (milloin käyttää)**
-	•	Pitkäkestoiset projektit: agentti muistaa aiemmin saadun palautteen tai valintoja.
-	•	Useamman "sessio" -tyylin rakentaminen, missä menneet viestit vaikuttavat tuleviin.
+ * Pitkäkestoiset projektit: agentti muistaa aiemmin saadun palautteen tai valintoja.
+ * Useamman "sessio" -tyylin rakentaminen, missä menneet viestit vaikuttavat tuleviin.
 
 **Esimerkki**
-	•	Agentti käy pitkiä neuvotteluja, jokainen viesti lisätään kontekstiin. Myöhemmin agentti voi hakea muistista aiemmin sovittuja asioita.
+ * Agentti käy pitkiä neuvotteluja, jokainen viesti lisätään kontekstiin. Myöhemmin agentti voi hakea muistista aiemmin sovittuja asioita.
 
 ```mermaid
 flowchart LR
@@ -540,14 +540,14 @@ flowchart LR
 Sama fyysinen LLM-pohjainen agentti voi toteuttaa useita "rooleja", ikään kuin se puhuisi itsensä kanssa eri hatuilla (esim. "Koodaaja" vs. "Arvostelija"). Autogen sujuvoittaa näiden roolien kytkemistä keskenään.
 
 **Ohje (milloin käyttää)**
-	•	Kun halutaan ideoiden "sparrausta" ilman erillistä ihmiskäyttäjää: LLM voi generoida ideoita toisessa roolissa ja arvioida niitä toisessa.
-	•	Esim. "Rooleina Designer & Critic."
+ * Kun halutaan ideoiden "sparrausta" ilman erillistä ihmiskäyttäjää: LLM voi generoida ideoita toisessa roolissa ja arvioida niitä toisessa.
+ * Esim. "Rooleina Designer & Critic."
 
 **Esimerkki**
-	•	Designer: "Tässä on koodin runko..."
-	•	Critic: "Huomioi reunatapaukset ja laadi testit."
-	•	Designer: "Korjasin koodin..."
-	•	Critic: "OK, hyväksytty."
+ * Designer: "Tässä on koodin runko..."
+ * Critic: "Huomioi reunatapaukset ja laadi testit."
+ * Designer: "Korjasin koodin..."
+ * Critic: "OK, hyväksytty."
 
 ```mermaid
 flowchart LR
@@ -566,11 +566,11 @@ flowchart LR
 Autogen-projektissa on ideoita, joissa agentti ensin generoi testit, sitten koodin, sitten ajaa testit, ja toistaa kierrosta kunnes testit menevät läpi.
 
 **Ohje (milloin käyttää)**
-	•	Kun halutaan tuottaa koodia mahdollisimman virheettömästi ja iteratiivisesti.
-	•	Agentti itse generoi testit: "Kirjoita testit ensin," ja vasta sitten tuottaa koodia.
+ * Kun halutaan tuottaa koodia mahdollisimman virheettömästi ja iteratiivisesti.
+ * Agentti itse generoi testit: "Kirjoita testit ensin," ja vasta sitten tuottaa koodia.
 
 **Esimerkki**
-	•	Agentti laatii testin X_test.py, ajaa testit, huomaa virheen, korjaa koodin, kunnes testi läpäistään.
+ * Agentti laatii testin X_test.py, ajaa testit, huomaa virheen, korjaa koodin, kunnes testi läpäistään.
 
 ```mermaid
 flowchart LR
@@ -588,13 +588,13 @@ flowchart LR
 Projektissa voidaan automatisoida "pull request" -tyylinen koodikatselmointi: Agentti tuottaa koodin, toinen agentti (tai sama agentti eri roolissa) arvioi sen, ja joko hyväksyy tai ehdottaa muutoksia.
 
 **Ohje (milloin käyttää)**
-	•	Kun halutaan simuloida PR-käytäntöjä: "Luo feature-luokka," "Tee code review," "Vaadi tiettyjen kriteerien täyttymistä."
+ * Kun halutaan simuloida PR-käytäntöjä: "Luo feature-luokka," "Tee code review," "Vaadi tiettyjen kriteerien täyttymistä."
 
 **Esimerkki**
-	•	AssistantAgent: "Tässä feature-luokka."
-	•	ReviewerAgent: "Hyväksyn, mutta huomioi vielä testit."
-	•	AssistantAgent: "Lisäsin testit. OK?"
-	•	ReviewerAgent: "Hyväksyn."
+ * AssistantAgent: "Tässä feature-luokka."
+ * ReviewerAgent: "Hyväksyn, mutta huomioi vielä testit."
+ * AssistantAgent: "Lisäsin testit. OK?"
+ * ReviewerAgent: "Hyväksyn."
 
 ```mermaid
 flowchart LR
@@ -611,11 +611,11 @@ flowchart LR
 Agentti generoi dokumentaatiota suoraan koodipohjasta tai keskeneräistä ideointia "ydin->dokumentaatio->tiivistelmät" -tyyliin. Autogen tarjoaa keinoja kytkeä dokumentointikyselyt samaan "keskustelusilmukkaan."
 
 **Ohje (milloin käyttää)**
-	•	Kun halutaan automaattisesti tuottaa dokumentaatiota projektin lomassa.
-	•	Esim. iso kooditiedosto -> agentti tuottaa automaattisesti README.md -sisällön.
+ * Kun halutaan automaattisesti tuottaa dokumentaatiota projektin lomassa.
+ * Esim. iso kooditiedosto -> agentti tuottaa automaattisesti README.md -sisällön.
 
 **Esimerkki**
-	•	"Kuvaile tämän Python-luokan vastuut, metodien parametrit ja esimerkkikäyttö."
+ * "Kuvaile tämän Python-luokan vastuut, metodien parametrit ja esimerkkikäyttö."
 
 ```mermaid
 flowchart LR
@@ -631,12 +631,12 @@ flowchart LR
 Autogen tallentaa (tai mahdollistaa tallentamisen) jokaisen vuorovaikutuksen, jotta niitä voi myöhemmin toistaa, tarkistaa, ja debugata. "Replay" auttaa ymmärtämään, miksi agentti päätyi tiettyyn lopputulokseen.
 
 **Ohje (milloin käyttää)**
-	•	Kun halutaan varmistaa toistettavuus: pystytään toistamaan sama "keskustelu" T-hetkellä, jos halutaan selvittää bugi.
-	•	Kun agentin toimintaa halutaan seurata ja auditoida jälkeenpäin.
+ * Kun halutaan varmistaa toistettavuus: pystytään toistamaan sama "keskustelu" T-hetkellä, jos halutaan selvittää bugi.
+ * Kun agentin toimintaa halutaan seurata ja auditoida jälkeenpäin.
 
 **Esimerkki**
-	•	Päiväkirjatyyppinen logitus: "Agentti 9.4.2025 klo 12:13, pyysi Tool X:ää."
-	•	Myöhemmin: "Katsotaan muistiinpanoista miksi agentti teki päätöksen Y."
+ * Päiväkirjatyyppinen logitus: "Agentti 9.4.2025 klo 12:13, pyysi Tool X:ää."
+ * Myöhemmin: "Katsotaan muistiinpanoista miksi agentti teki päätöksen Y."
 
 ```mermaid
 flowchart LR
@@ -795,11 +795,11 @@ flowchart LR
 Serializing Components tarkoittaa AutoGenissa agenttien, tiimien tai työkalujen tallentamista ja lataamista määrittelytiedostojen (esim. JSON) avulla. Tällä tavoin komponenttien tilat tai asetukset voidaan säilyttää, siirtää tai rekonstruoida helposti eri ympäristöissä.
 
 **Ohje (milloin käyttää)**
-	•	Kun halutaan tallentaa agenttien tai tiimien konfiguraatioita myöhempää käyttöä tai jakoa varten.
-	•	Kun tarvitaan johdonmukaisuutta eri ympäristöjen välillä tai halutaan jakaa asetuksia muille kehittäjille.
+ * Kun halutaan tallentaa agenttien tai tiimien konfiguraatioita myöhempää käyttöä tai jakoa varten.
+ * Kun tarvitaan johdonmukaisuutta eri ympäristöjen välillä tai halutaan jakaa asetuksia muille kehittäjille.
 
 **Esimerkki**
-	•	Luodaan agentti, tallennetaan sen asetukset JSON-muotoon (dump_component), jonka jälkeen agentti voidaan ladata toisessa ympäristössä takaisin käyttöön (load_component).
+ * Luodaan agentti, tallennetaan sen asetukset JSON-muotoon (dump_component), jonka jälkeen agentti voidaan ladata toisessa ympäristössä takaisin käyttöön (load_component).
 
 
 ```mermaid
@@ -814,11 +814,11 @@ flowchart LR
 Tracing and Observability tarkoittaa AutoGenissa agenttien toiminnan yksityiskohtaista seurantaa OpenTelemetry-kehyksen avulla. Sen avulla voidaan tallentaa agenttien välisiä vuorovaikutuksia ja sisäisiä tapahtumia, jotka helpottavat vianmääritystä, suorituskyvyn analysointia sekä toiminnan ymmärtämistä.
 
 **Ohje (milloin käyttää)**
-	•	Kun halutaan yksityiskohtainen näkymä agenttien sisäiseen toimintaan ja viestinvälitykseen.
-	•	Vianmäärityksessä ja tuotantoympäristöjen monitoroinnissa.
+ * Kun halutaan yksityiskohtainen näkymä agenttien sisäiseen toimintaan ja viestinvälitykseen.
+ * Vianmäärityksessä ja tuotantoympäristöjen monitoroinnissa.
 
 **Esimerkki**
-	•	Agenttitiimi suorittaa tehtävää, ja OpenTelemetry tallentaa jokaisen agentin vuorovaikutuksen, kuten viestien lähettämiset ja vastaanotot. Tiedot kerätään esimerkiksi Jaeger-palveluun, jossa niitä voidaan visualisoida ja analysoida.
+ * Agenttitiimi suorittaa tehtävää, ja OpenTelemetry tallentaa jokaisen agentin vuorovaikutuksen, kuten viestien lähettämiset ja vastaanotot. Tiedot kerätään esimerkiksi Jaeger-palveluun, jossa niitä voidaan visualisoida ja analysoida.
 
 ```mermaid
 flowchart LR
@@ -834,12 +834,13 @@ flowchart LR
 Human-in-the-Loop tarkoittaa AutoGenissa ihmiskäyttäjän osallistumista agenttitiimin toimintaan joko tiimin suorituksen aikana tai eri suorituskertojen välissä. Näin ihmiskäyttäjä voi antaa palautetta, hyväksyä tai muokata agenttien päätöksiä ja ohjata toimintaa haluttuun suuntaan.
 
 **Ohje (milloin käyttää)**
-	•	Kun tarvitaan ihmisen hyväksyntää, päätöstä tai lisäohjeistusta agentin suorittamien tehtävien välillä.
-	•	Tilanteissa, joissa on tärkeää valvoa ja tarvittaessa puuttua automaattisten päätösten tekemiseen.
+ * Kun tarvitaan ihmisen hyväksyntää, päätöstä tai lisäohjeistusta agentin suorittamien tehtävien välillä.
+ * Tilanteissa, joissa on tärkeää valvoa ja tarvittaessa puuttua automaattisten päätösten tekemiseen.
 
 **Esimerkki**
-	•	Asiakastukiagentti ehdottaa ratkaisua ja jää odottamaan käyttäjän vahvistusta ennen seuraavan vaiheen suorittamista. Käyttäjän antama palaute ohjaa seuraavaa agentin toimintakierrosta.
+ * Asiakastukiagentti ehdottaa ratkaisua ja jää odottamaan käyttäjän vahvistusta ennen seuraavan vaiheen suorittamista. Käyttäjän antama palaute ohjaa seuraavaa agentin toimintakierrosta.
 
+<!-- [MermaidChart: 44247d65-ee46-420e-a33a-5bc18cd653bc] -->
 ```mermaid
 flowchart LR
     A[Agentti suorittaa tehtävän] --> B[Odottaa käyttäjän palautetta]
