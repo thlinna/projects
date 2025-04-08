@@ -4,10 +4,9 @@ Tähän tiedostoon on koottu jokainen kuvassa esiintyvä tekoälyn suunnitteluma
 
 - **Kuvaus**: Mitä malli tekee
 - **Ohje (milloin käyttää)**: Millaisissa tilanteissa/tehtävissä malli on hyödyllinen
-- **Esimerkki**: Lyhyt käytännön ** Esimerkki **
+- **Esimerkki**: Lyhyt käytännön **Esimerkki**
 - **Mermaid-kaavio**: Kopioitava koodilohko
 
----
 
 ## 1. Node (Single Step)
 
@@ -26,7 +25,6 @@ flowchart LR
     B --> C[Output: Summary]
 ```
 
-⸻
 
 ## 2. Flow (Multiple Steps)
 
@@ -47,8 +45,6 @@ flowchart LR
 ```
 
 
-⸻
-
 ## 3. Shared (Communication)
 
 **Kuvaus**
@@ -67,8 +63,6 @@ flowchart LR
     S -->|read summary| B[Draft Reply]
 ```
 
-
-⸻
 
 ## 4. Branch (Conditional step)
 
@@ -90,8 +84,6 @@ flowchart LR
 ```
 
 
-⸻
-
 ## 5. Batch (Repeat steps)
 
 **Kuvaus**
@@ -112,8 +104,6 @@ flowchart LR
 ```
 
 
-⸻
-
 ## 6. Async (I/O Wait)
 
 **Kuvaus**
@@ -133,8 +123,6 @@ flowchart LR
     C -- No --> B
 ```
 
-
-⸻
 
 ## 7. Parallel (Concurrent steps)
 
@@ -158,8 +146,6 @@ flowchart LR
 ```
 
 
-⸻
-
 ## 8. Looping (Long running step)
 
 **Kuvaus**
@@ -179,8 +165,6 @@ flowchart LR
     C -- Yes --> D[Done]
 ```
 
-
-⸻
 
 ## 9. Nesting (Reusable step)
 
@@ -205,8 +189,6 @@ flowchart LR
 ```
 
 
-⸻
-
 ## 10. Workflow (Directed Path)
 
 **Kuvaus**
@@ -224,8 +206,6 @@ flowchart LR
     B --> C[Send Reply]
 ```
 
-
-⸻
 
 ## 11. CoT (Chain-of-Thought)
 
@@ -246,8 +226,6 @@ flowchart LR
 ```
 
 
-⸻
-
 ## 12. Chat (Looping + chat history store)
 
 **Kuvaus**
@@ -267,8 +245,6 @@ flowchart LR
 ```
 
 
-⸻
-
 ## 13. RAG (Retrieval-Augmented Generation)
 
 **Kuvaus**
@@ -287,8 +263,6 @@ flowchart LR
     C --> D[Generate Final Answer]
 ```
 
-
-⸻
 
 ## 14. Map-Reduce (Batch + Merge)
 
@@ -314,8 +288,6 @@ flowchart LR
 ```
 
 
-⸻
-
 ## 15. Chat Memory (Looping + history & vector DB)
 
 **Kuvaus**
@@ -338,8 +310,6 @@ flowchart LR
 ```
 
 
-⸻
-
 ## 16. Agent (Looping + Branching)
 
 **Kuvaus**
@@ -361,8 +331,6 @@ flowchart LR
     E -- No --> A
 ```
 
-
-⸻
 
 ## 17. Multi-Agent (Loop + Branching + pub/sub)
 
@@ -388,8 +356,6 @@ flowchart LR
 ```
 
 
-⸻
-
 ## 18. Supervisor (Nesting, Approve/Reject)
 
 **Kuvaus**
@@ -412,19 +378,16 @@ flowchart LR
 ```
 
 
-⸻
-
-
 ## 19 Multi-Agent Collaboration
 
-** Kuvaus **
+**Kuvaus**
 Useita agentteja (esim. eri roolit: “AssistantAgent”, “UserProxyAgent”) jotka keskustelevat keskenään suorittaakseen monimutkaisia tehtäviä. Autogen tarjoaa helpon tavan käynnistää useita agentteja ja hallita niiden vuorovaikutusta.
 
-** Ohje (milloin käyttää) **
+**Ohje (milloin käyttää)**
 	•	Kun halutaan hajauttaa tehtävää useammalle roolille (esim. koodin kirjoittaja, koodin tarkastaja).
 	•	Kun yksi agentti tuottaa tekstiä/koodia ja toinen arvioi tai täydentää sitä.
 
-** Esimerkki **
+**Esimerkki**
 	•	Agentti A: “Koodaa minulle funktion X”
 	•	Agentti B: “Tarkista onko koodi syntaksiltaan oikein, testaa se.”
 > **Huom:** Voit tallentaa yllä olevan tekstin sellaisenaan `.md`-tiedostona, jonka voit avata tai jakaa eteenpäin.  
@@ -439,19 +402,17 @@ flowchart LR
     A -->|Final result| C[Output]
 ```
 
-⸻
-
 
 ## 20 Tool-Driven Agent
 
-** Kuvaus **
+**Kuvaus**
 Agentti (LLM) voi kutsua ulkoisia työkaluja (funktioita, API-pyyntöjä, tiedostojärjestelmää), kun se tarvitsee lisätietoa tai suorittaa tehtävänsä. Autogen abstrahoi nämä “tool”-kutsut selkeäksi rajapinnaksi.
 
-** Ohje (milloin käyttää) **
+**Ohje (milloin käyttää)**
 	•	Kun agentilla on tarve käyttää ohjelman sisäisiä funktioita, kolmannen osapuolen kirjastoja tai API-rajapintoja.
 	•	Kun halutaan laajentaa LLM:n kyvykkyyttä reaalimaailman toimenpiteisiin.
 
-** Esimerkki **
+**Esimerkki**
 	•	Agentti: “Hae tämän userID:n tiedot tietokannasta, sitten laadi raportti.”
 	•	Työkalu: fetch_user_data(userID)
 
@@ -462,21 +423,19 @@ flowchart LR
     C --> A
     A --> D[Generate Report]
 ```
-⸻
 
 
 ## 21 Self-Feedback Loop (Self-Check / Self-Correction)
 
-** Kuvaus **
+**Kuvaus**
 Sama agentti tuottaa ensin luonnoksen, lukee sen “kriittisenä arvioijana” ja korjaa mahdolliset virheet. Autogen mahdollistaa tämän “itsepalautteen” rakenteen, jossa agentti ikään kuin testaa omaa tuotostaan.
 
-** Ohje (milloin käyttää) **
+**Ohje (milloin käyttää)**
 	•	Kun tarvitaan automaattinen laaduntarkastus: agentti arvioi ensin itse vastaustaan ennen kuin se päätyy lopulliseen tulokseen.
 	•	Esimerkiksi koodia generoitaessa: agentti generoi koodin, testaa sen tai käy läpi loogisia tarkistuksia, tekee korjauksia.
 
-** Esimerkki **
+**Esimerkki**
 	•	Agentti laatii Python-funktion, sitten agentti itse suorittaa “lint”- tai testiskenaarion, huomaa virheitä ja palaa korjaamaan ne.
-
 
 ```mermaid
 flowchart LR
@@ -485,19 +444,18 @@ flowchart LR
     C -- Yes --> A
     C -- No --> D[Final Output]
 ```
-⸻
 
 
 ## 22 Plan-and-Execute -malli
 
-** Kuvaus **
+**Kuvaus**
 Agentti laatii ensin korkean tason suunnitelman (“plan”), jonka pohjalta se suorittaa vaiheittain osatehtäviä (joihin voi sisältyä “tool”-kutsuja, kysymyksiä toiselle agentille tai sisäistä pohdintaa).
 
-** Ohje (milloin käyttää) **
+**Ohje (milloin käyttää)**
 	•	Kun tehtävä on monimutkainen ja kannattaa ensin selventää vaiheet, ennen kuin aletaan tuottaa lopullista ratkaisua.
 	•	Esim. iso projekti: “Laadi koodi, testit ja dokumentaatio.”
 
-** Esimerkki **
+**Esimerkki**
 	•	Agentti: “Suunnitellaan 1) Tietorakenne, 2) Metodit, 3) Testit, 4) Dokumentaatio.”
 	•	Sitten se käy vaiheet läpi yksi kerrallaan.
 
@@ -509,19 +467,18 @@ flowchart LR
     D --> E[Execute Step 3]
     E --> F[Final Output]
 ```
-⸻
 
 
 ## 23 Chat Memory + Persistent Storage
 
-** Kuvaus **
+**Kuvaus**
 Agenttien viestit tallentuvat keskusteluhistoriaan ja/tai pysyvään talletukseen (tiedosto-/vektorikanta). Autogen mahdollistaa “muistin” ja “kontekstin” säilyttämisen pidempään, esim. monen vuorovaikutuksen yli.
 
-** Ohje (milloin käyttää) **
+**Ohje (milloin käyttää)**
 	•	Pitkäkestoiset projektit: agentti muistaa aiemmin saadun palautteen tai valintoja.
 	•	Useamman “sessio”-tyylin rakentaminen, missä menneet viestit vaikuttavat tuleviin.
 
-** Esimerkki **
+**Esimerkki**
 	•	Agentti käy pitkiä neuvotteluja, jokainen viesti lisätään kontekstiin. Myöhemmin agentti voi hakea muistista aiemmin sovittuja asioita.
 
 ```mermaid
@@ -532,19 +489,17 @@ flowchart LR
     B --> D[Next Response]
 ```
 
-⸻
-
 
 ## 24 Multi-Role “Self-Play”
 
-** Kuvaus **
+**Kuvaus**
 Sama fyysinen LLM-pohjainen agentti voi toteuttaa useita “rooleja”, ikään kuin se puhuisi itsensä kanssa eri hatuilla (esim. “Koodaaja” vs. “Arvostelija”). Autogen sujuvoittaa näiden roolien kytkemistä keskenään.
 
-** Ohje (milloin käyttää) **
+**Ohje (milloin käyttää)**
 	•	Kun halutaan ideoiden “sparrausta” ilman erillistä ihmiskäyttäjää: LLM voi generoida ideoita toisessa roolissa ja arvioida niitä toisessa.
 	•	Esim. “Rooleina Designer & Critic.”
 
-** Esimerkki **
+**Esimerkki**
 	•	Designer: “Tässä on koodin runko…”
 	•	Critic: “Huomioi reunatapaukset ja laadi testit.”
 	•	Designer: “Korjasin koodin…”
@@ -559,19 +514,18 @@ flowchart LR
 
     A --> C[Final Approved Code]
 ```
-⸻
 
 
 ## 25 AutoTDD (Test-Driven Development -tyyli)
 
-** Kuvaus **
+**Kuvaus**
 Autogen-projektissa on ideoita, joissa agentti ensin generoi testit, sitten koodin, sitten ajaa testit, ja toistaa kierrosta kunnes testit menevät läpi.
 
-** Ohje (milloin käyttää) **
+**Ohje (milloin käyttää)**
 	•	Kun halutaan tuottaa koodia mahdollisimman virheettömästi ja iteratiivisesti.
 	•	Agentti itse generoi testit: “Kirjoita testit ensin,” ja vasta sitten tuottaa koodia.
 
-** Esimerkki **
+**Esimerkki**
 	•	Agentti laatii testin X_test.py, ajaa testit, huomaa virheen, korjaa koodin, kunnes testi läpäistään.
 
 ```mermaid
@@ -582,18 +536,17 @@ flowchart LR
     D -- No --> B
     D -- Yes --> E[Done]
 ```
-⸻
 
 
 ## 26 CodeReview Agent
 
-** Kuvaus **
+**Kuvaus**
 Projektissa voidaan automatisoida “pull request” -tyylinen koodikatselmointi: Agentti tuottaa koodin, toinen agentti (tai sama agentti eri roolissa) arvioi sen, ja joko hyväksyy tai ehdottaa muutoksia.
 
-** Ohje (milloin käyttää) **
+**Ohje (milloin käyttää)**
 	•	Kun halutaan simuloida PR-käytäntöjä: “Luo feature-luokka,” “Tee code review,” “Vaadi tiettyjen kriteerien täyttymistä.”
 
-** Esimerkki **
+**Esimerkki**
 	•	AssistantAgent: “Tässä feature-luokka.”
 	•	ReviewerAgent: “Hyväksyn, mutta huomioi vielä testit.”
 	•	AssistantAgent: “Lisäsin testit. OK?”
@@ -606,19 +559,18 @@ flowchart LR
     C -- No --> A
     C -- Yes --> D[Merge / Done]
 ```
-⸻
 
 
 ## 27 Summarization/Documentation Pipeline
 
-** Kuvaus **
+**Kuvaus**
 Agentti generoi dokumentaatiota suoraan koodipohjasta tai keskeneräistä ideointia “ydin->dokumentaatio->tiivistelmät” -tyyliin. Autogen tarjoaa keinoja kytkeä dokumentointikyselyt samaan “keskustelusilmukkaan.”
 
-** Ohje (milloin käyttää) **
+**Ohje (milloin käyttää)**
 	•	Kun halutaan automaattisesti tuottaa dokumentaatiota projektin lomassa.
 	•	Esim. iso kooditiedosto -> agentti tuottaa automaattisesti README.md -sisällön.
 
-** Esimerkki **
+**Esimerkki**
 	•	“Kuvaile tämän Python-luokan vastuut, metodien parametrit ja esimerkkikäyttö.”
 
 ```mermaid
@@ -629,19 +581,16 @@ flowchart LR
 ```
 
 
-⸻
-
-
 ## 28 Conversation Logging & Replay
 
-** Kuvaus **
+**Kuvaus**
 Autogen tallentaa (tai mahdollistaa tallentamisen) jokaisen vuorovaikutuksen, jotta niitä voi myöhemmin toistaa, tarkistaa, ja debugata. “Replay” auttaa ymmärtämään, miksi agentti päätyi tiettyyn lopputulokseen.
 
-** Ohje (milloin käyttää) **
+**Ohje (milloin käyttää)**
 	•	Kun halutaan varmistaa toistettavuus: pystytään toistamaan sama “keskustelu” T-hetkellä, jos halutaan selvittää bugi.
 	•	Kun agentin toimintaa halutaan seurata ja auditoida jälkeenpäin.
 
-** Esimerkki **
+**Esimerkki**
 	•	Päiväkirjatyyppinen logitus: “Agentti 9.4.2025 klo 12:13, pyysi Tool X:ää.”
 	•	Myöhemmin: “Katsotaan muistiinpanoista miksi agentti teki päätöksen Y.”
 
@@ -651,9 +600,6 @@ flowchart LR
     B --> C[Stored Logs]
     C --> D[Replay / Debug Session]
 ```
-
-
-⸻
 
 
 ## 29 Custom Agents
@@ -678,21 +624,19 @@ flowchart LR
 ```
 
 
-⸻
-
 
 ## 30 Selector Group Chat
 
-** Description: **
+**Description:**
 Selector Group Chat is a team setup where agents take turns broadcasting messages to all other members. A model selects the next speaker based on the shared context, enabling dynamic, context-aware collaboration. ￼
 
-** When to Use: **
+**When to Use:**
 Use Selector Group Chat when multiple agents need to collaborate dynamically, and the conversation flow should be determined based on the context of the discussion.
 
-** Example Scenario: **
+**Example Scenario:**
 A team of agents working together to plan a trip, where each agent contributes based on their expertise (e.g., flights, hotels, activities). ￼
 
-** Mermaid Diagram: **
+**Mermaid Diagram:**
 ```mermaid
 flowchart LR
     A[Task Assigned] --> B[Agent 1]
@@ -705,21 +649,18 @@ flowchart LR
 ```
 
 
-⸻
-
-
 ## 31 Swarm
 
-** Description: **
+**Description:**
 Swarm implements a team where agents can hand off tasks to other agents based on their capabilities. It allows agents to make local decisions about task planning without relying on a central orchestrator. ￼
 
-** When to Use: **
+**When to Use:**
 Employ Swarm when building a decentralized system where agents autonomously delegate tasks to peers with the appropriate capabilities.
 
-** Example Scenario: **
+**Example Scenario:**
 A customer support system where an initial agent assesses a query and hands it off to a specialized agent for resolution.
 
-** Mermaid Diagram: **
+**Mermaid Diagram:**
 ```mermaid
 flowchart LR
     A[Customer Query] --> B[General Support Agent]
@@ -733,21 +674,18 @@ flowchart LR
 ```
 
 
-⸻
-
-
 ## 31 Magentic-One
 
-** Description: **
+**Description:**
 Magentic-One is a generalist multi-agent system designed to solve open-ended web and file-based tasks across various domains. It uses an orchestrator agent to create plans, delegate tasks, and track progress. ￼
 
-** When to Use: **
+**When to Use:**
 Utilize Magentic-One for complex tasks requiring coordination among multiple specialized agents, such as web navigation, file handling, and code execution.
 
-** Example Scenario: **
+**Example Scenario:**
 An orchestrator agent delegates tasks to a FileSurfer agent for reading files, a WebSurfer agent for browsing the web, and a Coder agent for writing code to complete a complex project. ￼
 
-** Mermaid Diagram: **
+**Mermaid Diagram:**
 ```mermaid
 flowchart LR
     A[Orchestrator Agent] --> B[Create Plan]
@@ -764,21 +702,18 @@ flowchart LR
 ```
 
 
-⸻
-
-
 ## 32 Memory and RAG
 
-** Description: **
+**Description:**
 Memory and Retrieval-Augmented Generation (RAG) involve maintaining a store of useful facts that can be intelligently added to the agent’s context before a specific step. ￼
 
-** When to Use: **
+**When to Use:**
 Implement Memory and RAG when an agent needs to retrieve relevant information from a database to enhance its responses, such as in a chatbot remembering user preferences.
 
-** Example Scenario: **
+**Example Scenario:**
 An agent retrieves a user’s past interactions to provide personalized recommendations.
 
-** Mermaid Diagram: **
+**Mermaid Diagram:**
 ```mermaid
     flowchart LR
     A[User Query] --> B[Retrieve Memory]
@@ -789,21 +724,18 @@ An agent retrieves a user’s past interactions to provide personalized recommen
 ```
 
 
-⸻
-
-
 ## 33 Logging
 
-** Description: **
+**Description:**
 Logging involves recording traces and internal messages to monitor and debug the behavior of agents and teams. ￼
 
-** When to Use: **
+**When to Use:**
 Use Logging to keep track of agent interactions, decisions, and errors for debugging and analysis purposes.
 
-** Example Scenario: **
+**Example Scenario:**
 Recording the sequence of actions taken by agents in a multi-agent system to identify bottlenecks or errors.
 
-** Mermaid Diagram: **
+**Mermaid Diagram:**
 ```mermaid
 flowchart LR
     A[Agent Action] --> B[Log Message]
@@ -813,19 +745,16 @@ flowchart LR
 ```
 
 
-⸻
-
-
 ## 34 Serializing Components
 
-** Kuvaus **
+**Kuvaus**
 Serializing Components tarkoittaa AutoGenissa agenttien, tiimien tai työkalujen tallentamista ja lataamista määrittelytiedostojen (esim. JSON) avulla. Tällä tavoin komponenttien tilat tai asetukset voidaan säilyttää, siirtää tai rekonstruoida helposti eri ympäristöissä.
 
-** Ohje (milloin käyttää) **
+**Ohje (milloin käyttää)**
 	•	Kun halutaan tallentaa agenttien tai tiimien konfiguraatioita myöhempää käyttöä tai jakoa varten.
 	•	Kun tarvitaan johdonmukaisuutta eri ympäristöjen välillä tai halutaan jakaa asetuksia muille kehittäjille.
 
-** Esimerkki **
+**Esimerkki**
 	•	Luodaan agentti, tallennetaan sen asetukset JSON-muotoon (dump_component), jonka jälkeen agentti voidaan ladata toisessa ympäristössä takaisin käyttöön (load_component).
 
 
@@ -835,19 +764,16 @@ flowchart LR
     B -->|load_component()| C[Reconstructed Instance]
 ```
 
-⸻
-
-
 ## 35 Tracing and Observability
 
-** Kuvaus **
+**Kuvaus**
 Tracing and Observability tarkoittaa AutoGenissa agenttien toiminnan yksityiskohtaista seurantaa OpenTelemetry-kehyksen avulla. Sen avulla voidaan tallentaa agenttien välisiä vuorovaikutuksia ja sisäisiä tapahtumia, jotka helpottavat vianmääritystä, suorituskyvyn analysointia sekä toiminnan ymmärtämistä.
 
-** Ohje (milloin käyttää) **
+**Ohje (milloin käyttää)**
 	•	Kun halutaan yksityiskohtainen näkymä agenttien sisäiseen toimintaan ja viestinvälitykseen.
 	•	Vianmäärityksessä ja tuotantoympäristöjen monitoroinnissa.
 
-** Esimerkki **
+**Esimerkki**
 	•	Agenttitiimi suorittaa tehtävää, ja OpenTelemetry tallentaa jokaisen agentin vuorovaikutuksen, kuten viestien lähettämiset ja vastaanotot. Tiedot kerätään esimerkiksi Jaeger-palveluun, jossa niitä voidaan visualisoida ja analysoida.
 
 ```mermaid
@@ -858,19 +784,16 @@ flowchart LR
 ```
 
 
-⸻
-
-
 ## Human-in-the-Loop
 
-** Kuvaus **
+**Kuvaus**
 Human-in-the-Loop tarkoittaa AutoGenissa ihmiskäyttäjän osallistumista agenttitiimin toimintaan joko tiimin suorituksen aikana tai eri suorituskertojen välissä. Näin ihmiskäyttäjä voi antaa palautetta, hyväksyä tai muokata agenttien päätöksiä ja ohjata toimintaa haluttuun suuntaan.
 
-** Ohje (milloin käyttää) **
+**Ohje (milloin käyttää)**
 	•	Kun tarvitaan ihmisen hyväksyntää, päätöstä tai lisäohjeistusta agentin suorittamien tehtävien välillä.
 	•	Tilanteissa, joissa on tärkeää valvoa ja tarvittaessa puuttua automaattisten päätösten tekemiseen.
 
-** Esimerkki **
+**Esimerkki**
 	•	Asiakastukiagentti ehdottaa ratkaisua ja jää odottamaan käyttäjän vahvistusta ennen seuraavan vaiheen suorittamista. Käyttäjän antama palaute ohjaa seuraavaa agentin toimintakierrosta.
 
 ````mermaid
