@@ -1,3 +1,4 @@
+<!-- omit from toc -->
 # Tekoälyn suunnittelumalleja.md
 
 Tähän tiedostoon on koottu jokainen kuvassa esiintyvä tekoälyn suunnittelumalli omana mermaid-kaavionaan. Jokaisessa mallissa on:
@@ -8,48 +9,46 @@ Tähän tiedostoon on koottu jokainen kuvassa esiintyvä tekoälyn suunnitteluma
 - **Mermaid-kaavio**: Kopioitava koodilohko
 
 
-
+<!-- omit from toc -->
 ## Sisällysluettelo
 
-- [Tekoälyn suunnittelumalleja.md](#tekoälyn-suunnittelumallejamd)
-  - [Sisällysluettelo](#sisällysluettelo)
-  - [1. Node (Single Step)](#1-node-single-step)
-  - [2. Flow (Multiple Steps)](#2-flow-multiple-steps)
-  - [3. Shared (Communication)](#3-shared-communication)
-  - [4. Branch (Conditional step)](#4-branch-conditional-step)
-  - [5. Batch (Repeat steps)](#5-batch-repeat-steps)
-  - [6. Async (I/O Wait)](#6-async-io-wait)
-  - [7. Parallel (Concurrent steps)](#7-parallel-concurrent-steps)
-  - [8. Looping (Long running step)](#8-looping-long-running-step)
-  - [9. Nesting (Reusable step)](#9-nesting-reusable-step)
-  - [10. Workflow (Directed Path)](#10-workflow-directed-path)
-  - [11. CoT (Chain-of-Thought)](#11-cot-chain-of-thought)
-  - [12. Chat (Looping + chat history store)](#12-chat-looping--chat-history-store)
-  - [13. RAG (Retrieval-Augmented Generation)](#13-rag-retrieval-augmented-generation)
-  - [14. Map-Reduce (Batch + Merge)](#14-map-reduce-batch--merge)
-  - [15. Chat Memory (Looping + history \& vector DB)](#15-chat-memory-looping--history--vector-db)
-  - [16. Agent (Looping + Branching)](#16-agent-looping--branching)
-  - [17. Multi-Agent (Loop + Branching + pub/sub)](#17-multi-agent-loop--branching--pubsub)
-  - [18. Supervisor (Nesting, Approve/Reject)](#18-supervisor-nesting-approvereject)
-  - [19 Multi-Agent Collaboration](#19-multi-agent-collaboration)
-  - [20 Tool-Driven Agent](#20-tool-driven-agent)
-  - [21 Self-Feedback Loop (Self-Check / Self-Correction)](#21-self-feedback-loop-self-check--self-correction)
-  - [22 Plan-and-Execute -malli](#22-plan-and-execute--malli)
-  - [23 Chat Memory + Persistent Storage](#23-chat-memory--persistent-storage)
-  - [24 Multi-Role "Self-Play"](#24-multi-role-self-play)
-  - [25 AutoTDD (Test-Driven Development -tyyli)](#25-autotdd-test-driven-development--tyyli)
-  - [26 CodeReview Agent](#26-codereview-agent)
-  - [27 Summarization/Documentation Pipeline](#27-summarizationdocumentation-pipeline)
-  - [28 Conversation Logging \& Replay](#28-conversation-logging--replay)
-  - [29 Custom Agents](#29-custom-agents)
-  - [30 Selector Group Chat](#30-selector-group-chat)
-  - [31 Swarm](#31-swarm)
-  - [31 Magentic-One](#31-magentic-one)
-  - [32 Memory and RAG](#32-memory-and-rag)
-  - [33 Logging](#33-logging)
-  - [34 Serializing Components](#34-serializing-components)
-  - [35 Tracing and Observability](#35-tracing-and-observability)
-  - [36 Human-in-the-Loop](#36-human-in-the-loop)
+- [1. Node (Single Step)](#1-node-single-step)
+- [2. Flow (Multiple Steps)](#2-flow-multiple-steps)
+- [3. Shared (Communication)](#3-shared-communication)
+- [4. Branch (Conditional step)](#4-branch-conditional-step)
+- [5. Batch (Repeat steps)](#5-batch-repeat-steps)
+- [6. Async (I/O Wait)](#6-async-io-wait)
+- [7. Parallel (Concurrent steps)](#7-parallel-concurrent-steps)
+- [8. Looping (Long running step)](#8-looping-long-running-step)
+- [9. Nesting (Reusable step)](#9-nesting-reusable-step)
+- [10. Workflow (Directed Path)](#10-workflow-directed-path)
+- [11. CoT (Chain-of-Thought)](#11-cot-chain-of-thought)
+- [12. Chat (Looping + chat history store)](#12-chat-looping--chat-history-store)
+- [13. RAG (Retrieval-Augmented Generation)](#13-rag-retrieval-augmented-generation)
+- [14. Map-Reduce (Batch + Merge)](#14-map-reduce-batch--merge)
+- [15. Chat Memory (Looping + history \& vector DB)](#15-chat-memory-looping--history--vector-db)
+- [16. Agent (Looping + Branching)](#16-agent-looping--branching)
+- [17. Multi-Agent (Loop + Branching + pub/sub)](#17-multi-agent-loop--branching--pubsub)
+- [18. Supervisor (Nesting, Approve/Reject)](#18-supervisor-nesting-approvereject)
+- [19 Multi-Agent Collaboration](#19-multi-agent-collaboration)
+- [20 Tool-Driven Agent](#20-tool-driven-agent)
+- [21 Self-Feedback Loop (Self-Check / Self-Correction)](#21-self-feedback-loop-self-check--self-correction)
+- [22 Plan-and-Execute -malli](#22-plan-and-execute--malli)
+- [23 Chat Memory + Persistent Storage](#23-chat-memory--persistent-storage)
+- [24 Multi-Role "Self-Play"](#24-multi-role-self-play)
+- [25 AutoTDD (Test-Driven Development -tyyli)](#25-autotdd-test-driven-development--tyyli)
+- [26 CodeReview Agent](#26-codereview-agent)
+- [27 Summarization/Documentation Pipeline](#27-summarizationdocumentation-pipeline)
+- [28 Conversation Logging \& Replay](#28-conversation-logging--replay)
+- [29 Custom Agents](#29-custom-agents)
+- [30 Selector Group Chat](#30-selector-group-chat)
+- [31 Swarm](#31-swarm)
+- [31 Magentic-One](#31-magentic-one)
+- [32 Memory and RAG](#32-memory-and-rag)
+- [33 Logging](#33-logging)
+- [34 Serializing Components](#34-serializing-components)
+- [35 Tracing and Observability](#35-tracing-and-observability)
+- [36 Human-in-the-Loop](#36-human-in-the-loop)
 
 ---
 
@@ -841,8 +840,8 @@ Human-in-the-Loop tarkoittaa AutoGenissa ihmiskäyttäjän osallistumista agentt
 **Esimerkki**
 	•	Asiakastukiagentti ehdottaa ratkaisua ja jää odottamaan käyttäjän vahvistusta ennen seuraavan vaiheen suorittamista. Käyttäjän antama palaute ohjaa seuraavaa agentin toimintakierrosta.
 
-````mermaid
-lowchart LR
+```mermaid
+flowchart LR
     A[Agentti suorittaa tehtävän] --> B[Odottaa käyttäjän palautetta]
     B --> C[Käyttäjän palaute/vahvistus]
     C --> A
