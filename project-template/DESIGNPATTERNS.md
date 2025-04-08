@@ -50,7 +50,7 @@ Tähän tiedostoon on koottu jokainen kuvassa esiintyvä tekoälyn suunnitteluma
 
 ---
 
-## 1. Node (Single Step) [↑](#sisällysluettelo) [↓](#2-flow-multiple-steps)
+## 1. Node (Single Step) [↑](#sisällysluettelo) [↓ Flow (Multiple Steps)](#2-flow-multiple-steps)
 
 **Kuvaus**  
 Yksittäinen askel, joka toteuttaa yhden pienen, rajatun tehtävän (esim. "Summarize Email").
@@ -68,7 +68,7 @@ flowchart LR
 ```
 
 
-## 2. Flow (Multiple Steps) [↑](#sisällysluettelo) [↓](#3-shared-communication)
+## 2. Flow (Multiple Steps) [↑](#sisällysluettelo) [↓ Shared (Communication)](#3-shared-communication)
 
 **Kuvaus**
 Usean peräkkäisen askeleen ketju, jossa jokainen vaihe syöttää tuloksensa seuraavalle askeleelle.
@@ -87,7 +87,7 @@ flowchart LR
 ```
 
 
-## 3. Shared (Communication) [↑](#sisällysluettelo) [↓](#4-branch-conditional-step)
+## 3. Shared (Communication) [↑](#sisällysluettelo) [↓ Branch (Conditional step)](#4-branch-conditional-step)
 
 **Kuvaus**
 Kaksi tai useampi askelta, jotka jakavat samaa dataa/muistia (read/write).
@@ -106,7 +106,7 @@ flowchart LR
 ```
 
 
-## 4. Branch (Conditional step) [↑](#sisällysluettelo) [↓](#5-batch-repeat-steps)
+## 4. Branch (Conditional step) [↑](#sisällysluettelo) [↓ Batch (Repeat steps)](#5-batch-repeat-steps)
 
 **Kuvaus**
 Ehdollinen haara, joka ohjaa työnkulkua tuloksen perusteella eri suuntiin.
@@ -126,7 +126,7 @@ flowchart LR
 ```
 
 
-## 5. Batch (Repeat steps) [↑](#sisällysluettelo) [↓](#6-async-io-wait)
+## 5. Batch (Repeat steps) [↑](#sisällysluettelo) [↓ Async (I/O Wait)](#6-async-io-wait)
 
 **Kuvaus**
 Sama tehtävä toistetaan useille syötteille (esim. useille sähköposteille).
@@ -146,7 +146,7 @@ flowchart LR
 ```
 
 
-## 6. Async (I/O Wait) [↑](#sisällysluettelo) [↓](#7-parallel-concurrent-steps)
+## 6. Async (I/O Wait) [↑](#sisällysluettelo) [↓ Parallel (Concurrent steps)](#7-parallel-concurrent-steps)
 
 **Kuvaus**
 Asynkroninen vaihe, jossa odotetaan ulkoista tapahtumaa ennen jatkamista.
@@ -166,7 +166,7 @@ flowchart LR
 ```
 
 
-## 7. Parallel (Concurrent steps) [↑](#sisällysluettelo) [↓](#8-looping-long-running-step)
+## 7. Parallel (Concurrent steps) [↑](#sisällysluettelo) [↓ Looping (Long running step)](#8-looping-long-running-step)
 
 **Kuvaus**
 Useita askeleita suoritetaan rinnakkain yhtä aikaa.
@@ -188,7 +188,7 @@ flowchart LR
 ```
 
 
-## 8. Looping (Long running step) [↑](#sisällysluettelo) [↓](#9-nesting-reusable-step)
+## 8. Looping (Long running step) [↑](#sisällysluettelo) [↓ Nesting (Reusable step)](#9-nesting-reusable-step)
 
 **Kuvaus**
 Toistuva silmukka, jossa jokin askel toistetaan yhä uudelleen, kunnes ehto täyttyy.
@@ -208,7 +208,7 @@ flowchart LR
 ```
 
 
-## 9. Nesting (Reusable step) [↑](#sisällysluettelo) [↓](#10-workflow-directed-path)
+## 9. Nesting (Reusable step) [↑](#sisällysluettelo) [↓ Workflow (Directed Path)](#10-workflow-directed-path)
 
 **Kuvaus**
 Alimoduuli, jota voidaan kutsua useaan kertaan prosessissa.
@@ -231,7 +231,7 @@ flowchart LR
 ```
 
 
-## 10. Workflow (Directed Path) [↑](#sisällysluettelo) [↓](#11-cot-chain-of-thought)
+## 10. Workflow (Directed Path) [↑](#sisällysluettelo) [↓ CoT (Chain-of-Thought)](#11-cot-chain-of-thought)
 
 **Kuvaus**
 Ohjattu polku, jossa tehtävät suoritetaan lineaarisesti määritellyssä järjestyksessä.
@@ -249,7 +249,7 @@ flowchart LR
 ```
 
 
-## 11. CoT (Chain-of-Thought) [↑](#sisällysluettelo) [↓](#12-chat-looping--chat-history-store)
+## 11. CoT (Chain-of-Thought) [↑](#sisällysluettelo) [↓ Chat (Looping + chat history store)](#12-chat-looping--chat-history-store)
 
 **Kuvaus**
 Mallin "ajatusketju" tai välivaiheet, joissa se "pohtii" ennen lopullista vastausta.
@@ -268,7 +268,7 @@ flowchart LR
 ```
 
 
-## 12. Chat (Looping + chat history store) [↑](#sisällysluettelo) [↓](#13-rag-retrieval-augmented-generation)
+## 12. Chat (Looping + chat history store) [↑](#sisällysluettelo) [↓ RAG (Retrieval-Augmented Generation)](#13-rag-retrieval-augmented-generation)
 
 **Kuvaus**
 Chat-pohjainen vuorovaikutus, jossa viestit tallennetaan keskusteluhistoriaan, ja jokainen askel hyödyntää aiempia viestejä.
@@ -287,7 +287,7 @@ flowchart LR
 ```
 
 
-## 13. RAG (Retrieval-Augmented Generation) [↑](#sisällysluettelo) [↓](#14-map-reduce-batch--merge)
+## 13. RAG (Retrieval-Augmented Generation) [↑](#sisällysluettelo) [↓ Map-Reduce (Batch + Merge)](#14-map-reduce-batch--merge)
 
 **Kuvaus**
 Mallille annetaan ulkoista tietoa (kuten dokumenttivarasto) vastauksen parantamiseksi.
@@ -306,7 +306,7 @@ flowchart LR
 ```
 
 
-## 14. Map-Reduce (Batch + Merge) [↑](#sisällysluettelo) [↓](#15-chat-memory-looping--history--vector-db)
+## 14. Map-Reduce (Batch + Merge) [↑](#sisällysluettelo) [↓ Chat Memory (Looping + history & vector DB)](#15-chat-memory-looping--history--vector-db)
 
 **Kuvaus**
 Data pilkotaan pieniin osiin (Map), käsitellään, ja tulokset yhdistetään lopuksi (Reduce).
@@ -330,7 +330,7 @@ flowchart LR
 ```
 
 
-## 15. Chat Memory (Looping + history & vector DB) [↑](#sisällysluettelo) [↓](#16-agent-looping--branching)
+## 15. Chat Memory (Looping + history & vector DB) [↑](#sisällysluettelo) [↓ Agent (Looping + Branching)](#16-agent-looping--branching)
 
 **Kuvaus**
 Chat-järjestelmä, joka tallentaa jokaisen vuorovaikutuksen paitsi perinteiseen historiaan, myös vektoripohjaiseen kantaan.
@@ -352,7 +352,7 @@ flowchart LR
 ```
 
 
-## 16. Agent (Looping + Branching) [↑](#sisällysluettelo) [↓](#17-multi-agent-loop--branching--pubsub)
+## 16. Agent (Looping + Branching) [↑](#sisällysluettelo) [↓ Multi-Agent (Loop + Branching + pub/sub)](#17-multi-agent-loop--branching--pubsub)
 
 **Kuvaus**
 Agentti, joka iteroi tehtävää (esim. Summarize Email) ja haarautuu päätösten perusteella (Need review? Approve?).
@@ -374,7 +374,7 @@ flowchart LR
 ```
 
 
-## 17. Multi-Agent (Loop + Branching + pub/sub) [↑](#sisällysluettelo) [↓](#18-supervisor-nesting-approvereject)
+## 17. Multi-Agent (Loop + Branching + pub/sub) [↑](#sisällysluettelo) [↓ Supervisor (Nesting, Approve/Reject)](#18-supervisor-nesting-approvereject)
 
 **Kuvaus**
 Useita samanaikaisia tai peräkkäisiä agentteja, jotka viestivät toistensa kanssa (publish/subscribe).
@@ -398,7 +398,7 @@ flowchart LR
 ```
 
 
-## 18. Supervisor (Nesting, Approve/Reject) [↑](#sisällysluettelo) [↓](#19-multi-agent-collaboration)
+## 18. Supervisor (Nesting, Approve/Reject) [↑](#sisällysluettelo) [↓ Multi-Agent Collaboration](#19-multi-agent-collaboration)
 
 **Kuvaus**
 "Meta-agentti" tai valvoja, joka kutsuu useita tehtäviä ja lopuksi hyväksyy tai hylkää niiden tulokset.
@@ -420,7 +420,7 @@ flowchart LR
 ```
 
 
-## 19. Multi-Agent Collaboration [↑](#sisällysluettelo) [↓](#20-tool-driven-agent)
+## 19. Multi-Agent Collaboration [↑](#sisällysluettelo) [↓ Tool-Driven Agent](#20-tool-driven-agent)
 
 **Kuvaus**
 Useita agentteja (esim. eri roolit: "AssistantAgent", "UserProxyAgent") jotka keskustelevat keskenään suorittaakseen monimutkaisia tehtäviä. Autogen tarjoaa helpon tavan käynnistää useita agentteja ja hallita niiden vuorovaikutusta.
@@ -445,7 +445,7 @@ flowchart LR
 ```
 
 
-## 20. Tool-Driven Agent [↑](#sisällysluettelo) [↓](#21-self-feedback-loop-self-check--self-correction)
+## 20. Tool-Driven Agent [↑](#sisällysluettelo) [↓ Self-Feedback Loop](#21-self-feedback-loop-self-check--self-correction)
 
 **Kuvaus**
 Agentti (LLM) voi kutsua ulkoisia työkaluja (funktioita, API-pyyntöjä, tiedostojärjestelmää), kun se tarvitsee lisätietoa tai suorittaa tehtävänsä. Autogen abstrahoi nämä "tool" kutsut selkeäksi rajapinnaksi.
@@ -467,7 +467,7 @@ flowchart LR
 ```
 
 
-## 21. Self-Feedback Loop (Self-Check / Self-Correction) [↑](#sisällysluettelo) [↓](#22-plan-and-execute--malli)
+## 21. Self-Feedback Loop (Self-Check / Self-Correction) [↑](#sisällysluettelo) [↓ Plan-and-Execute -malli](#22-plan-and-execute--malli)
 
 **Kuvaus**
 Sama agentti tuottaa ensin luonnoksen, lukee sen "kriittisenä arvioijana" ja korjaa mahdolliset virheet. Autogen mahdollistaa tämän "itsepalautteen" rakenteen, jossa agentti ikään kuin testaa omaa tuotostaan.
@@ -488,7 +488,7 @@ flowchart LR
 ```
 
 
-## 22. Plan-and-Execute -malli [↑](#sisällysluettelo) [↓](#23-chat-memory--persistent-storage)
+## 22. Plan-and-Execute -malli [↑](#sisällysluettelo) [↓ Chat Memory + Persistent Storage](#23-chat-memory--persistent-storage)
 
 **Kuvaus**
 Agentti laatii ensin korkean tason suunnitelman ("plan"), jonka pohjalta se suorittaa vaiheittain osatehtäviä (joihin voi sisältyä "tool" kutsuja, kysymyksiä toiselle agentille tai sisäistä pohdintaa).
@@ -511,7 +511,7 @@ flowchart LR
 ```
 
 
-## 23. Chat Memory + Persistent Storage [↑](#sisällysluettelo) [↓](#24-multi-role-self-play)
+## 23. Chat Memory + Persistent Storage [↑](#sisällysluettelo) [↓ Multi-Role "Self-Play"](#24-multi-role-self-play)
 
 **Kuvaus**
 Agenttien viestit tallentuvat keskusteluhistoriaan ja/tai pysyvään talletukseen (tiedosto-/vektorikanta). Autogen mahdollistaa "muistin" ja "kontekstin" säilyttämisen pidempään, esim. monen vuorovaikutuksen yli.
@@ -532,7 +532,7 @@ flowchart LR
 ```
 
 
-## 24. Multi-Role "Self-Play" [↑](#sisällysluettelo) [↓](#25-autotdd-test-driven-development--tyyli)
+## 24. Multi-Role "Self-Play" [↑](#sisällysluettelo) [↓ AutoTDD](#25-autotdd-test-driven-development--tyyli)
 
 **Kuvaus**
 Sama fyysinen LLM-pohjainen agentti voi toteuttaa useita "rooleja", ikään kuin se puhuisi itsensä kanssa eri hatuilla (esim. "Koodaaja" vs. "Arvostelija"). Autogen sujuvoittaa näiden roolien kytkemistä keskenään.
@@ -558,7 +558,7 @@ flowchart LR
 ```
 
 
-## 25. AutoTDD (Test-Driven Development -tyyli) [↑](#sisällysluettelo) [↓](#26-codereview-agent)
+## 25. AutoTDD (Test-Driven Development -tyyli) [↑](#sisällysluettelo) [↓ CodeReview Agent](#26-codereview-agent)
 
 **Kuvaus**
 Autogen-projektissa on ideoita, joissa agentti ensin generoi testit, sitten koodin, sitten ajaa testit, ja toistaa kierrosta kunnes testit menevät läpi.
@@ -580,7 +580,7 @@ flowchart LR
 ```
 
 
-## 26. CodeReview Agent [↑](#sisällysluettelo) [↓](#27-summarizationdocumentation-pipeline)
+## 26. CodeReview Agent [↑](#sisällysluettelo) [↓ Summarization/Documentation Pipeline](#27-summarizationdocumentation-pipeline)
 
 **Kuvaus**
 Projektissa voidaan automatisoida "pull request" -tyylinen koodikatselmointi: Agentti tuottaa koodin, toinen agentti (tai sama agentti eri roolissa) arvioi sen, ja joko hyväksyy tai ehdottaa muutoksia.
@@ -603,7 +603,7 @@ flowchart LR
 ```
 
 
-## 27. Summarization/Documentation Pipeline [↑](#sisällysluettelo) [↓](#28-conversation-logging--replay)
+## 27. Summarization/Documentation Pipeline [↑](#sisällysluettelo) [↓ Conversation Logging & Replay](#28-conversation-logging--replay)
 
 **Kuvaus**
 Agentti generoi dokumentaatiota suoraan koodipohjasta tai keskeneräistä ideointia "ydin->dokumentaatio->tiivistelmät" -tyyliin. Autogen tarjoaa keinoja kytkeä dokumentointikyselyt samaan "keskustelusilmukkaan."
@@ -623,7 +623,7 @@ flowchart LR
 ```
 
 
-## 28. Conversation Logging & Replay [↑](#sisällysluettelo) [↓](#29-custom-agents)
+## 28. Conversation Logging & Replay [↑](#sisällysluettelo) [↓ Custom Agents](#29-custom-agents)
 
 **Kuvaus**
 Autogen tallentaa (tai mahdollistaa tallentamisen) jokaisen vuorovaikutuksen, jotta niitä voi myöhemmin toistaa, tarkistaa, ja debugata. "Replay" auttaa ymmärtämään, miksi agentti päätyi tiettyyn lopputulokseen.
@@ -644,7 +644,7 @@ flowchart LR
 ```
 
 
-## 29. Custom Agents [↑](#sisällysluettelo) [↓](#30-selector-group-chat)
+## 29. Custom Agents [↑](#sisällysluettelo) [↓ Selector Group Chat](#30-selector-group-chat)
 
 **Description:**  
 Custom Agents are user-defined agents with tailored behaviors and functionalities beyond the default agents provided by AutoGen.
@@ -667,7 +667,7 @@ flowchart LR
 
 
 
-## 30. Selector Group Chat [↑](#sisällysluettelo) [↓](#31-swarm)
+## 30. Selector Group Chat [↑](#sisällysluettelo) [↓ Swarm](#31-swarm)
 
 **Description:**
 Selector Group Chat is a team setup where agents take turns broadcasting messages to all other members. A model selects the next speaker based on the shared context, enabling dynamic, context-aware collaboration. ￼
@@ -691,7 +691,7 @@ flowchart LR
 ```
 
 
-## 31. Swarm [↑](#sisällysluettelo) [↓](#32-memory-and-rag)
+## 31. Swarm [↑](#sisällysluettelo) [↓ Memory and RAG](#32-memory-and-rag)
 
 **Description:**
 Swarm implements a team where agents can hand off tasks to other agents based on their capabilities. It allows agents to make local decisions about task planning without relying on a central orchestrator. ￼
@@ -716,7 +716,7 @@ flowchart LR
 ```
 
 
-## 32. Memory and RAG [↑](#sisällysluettelo) [↓](#33-logging)
+## 32. Memory and RAG [↑](#sisällysluettelo) [↓ Logging](#33-logging)
 
 **Description:**
 Memory and Retrieval-Augmented Generation (RAG) involve maintaining a store of useful facts that can be intelligently added to the agent's context before a specific step. ￼
@@ -738,7 +738,7 @@ An agent retrieves a user's past interactions to provide personalized recommenda
 ```
 
 
-## 33. Logging [↑](#sisällysluettelo) [↓](#34-serializing-components)
+## 33. Logging [↑](#sisällysluettelo) [↓ Serializing Components](#34-serializing-components)
 
 **Description:**
 Logging involves recording traces and internal messages to monitor and debug the behavior of agents and teams. ￼
@@ -759,7 +759,7 @@ flowchart LR
 ```
 
 
-## 34. Serializing Components [↑](#sisällysluettelo) [↓](#35-tracing-and-observability)
+## 34. Serializing Components [↑](#sisällysluettelo) [↓ Tracing and Observability](#35-tracing-and-observability)
 
 **Kuvaus**
 Serializing Components tarkoittaa AutoGenissa agenttien, tiimien tai työkalujen tallentamista ja lataamista määrittelytiedostojen (esim. JSON) avulla. Tällä tavoin komponenttien tilat tai asetukset voidaan säilyttää, siirtää tai rekonstruoida helposti eri ympäristöissä.
@@ -778,7 +778,7 @@ flowchart LR
     B -->|load_component()| C[Reconstructed Instance]
 ```
 
-## 35. Tracing and Observability [↑](#sisällysluettelo) [↓](#human-in-the-loop)
+## 35. Tracing and Observability [↑](#sisällysluettelo) [↓ Human-in-the-Loop](#human-in-the-loop)
 
 **Kuvaus**
 Tracing and Observability tarkoittaa AutoGenissa agenttien toiminnan yksityiskohtaista seurantaa OpenTelemetry-kehyksen avulla. Sen avulla voidaan tallentaa agenttien välisiä vuorovaikutuksia ja sisäisiä tapahtumia, jotka helpottavat vianmääritystä, suorituskyvyn analysointia sekä toiminnan ymmärtämistä.
