@@ -1,0 +1,30 @@
+graph TD
+    subgraph SPARC Multi-Agent System (Orchestrator Architecture)
+        User -- Input/Query --> Orchestrator{<font size=5> orchestrator </font><br/><b>Orchestrator Agent</b><br/>Controls Flow & State};
+
+        Orchestrator -- Task: Generate Ideas --> Ideation(💡<br/>Ideation Agent);
+        Ideation -- Results: Ideas --> Orchestrator;
+
+        Orchestrator -- Task: Elaborate Idea --> Elaboration(🧩<br/>Elaboration Agent);
+        Elaboration -- Results: Details --> Orchestrator;
+
+        Orchestrator -- Task: Critique Idea --> Critic(🤔<br/>Critic Agent);
+        Critic -- Results: Critique --> Orchestrator;
+
+        Orchestrator -- Task: Verify Claim --> Guardian(🛡️<br/>Guardian Agent);
+        Guardian -- Checks Facts --> ExternalKB[(🌐<br/>External Knowledge / API)];
+        Guardian -- Results: Verification/Correction --> Orchestrator;
+
+        Orchestrator -- Task: Summarize --> Summarizer(📜<br/>Summarizer Agent);
+        Summarizer -- Results: Summary --> Orchestrator;
+
+        Orchestrator -- Output/Update --> User;
+
+        %% Roo Code Specifics
+        RC[(<font size=5>⚙️</font><br/>Roo Code Environment)] -- Manages Modes & Boomerang --> Orchestrator
+        Orchestrator -- Applies Mode Logic --> Orchestrator
+        Orchestrator -- Triggers Mode Change via Boomerang --> RC
+    end
+
+    style Orchestrator fill:#cfe2f3,stroke:#333,stroke-width:2px
+    style RC fill:#add8e6,stroke:#333,stroke-width:2px

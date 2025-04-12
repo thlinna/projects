@@ -1,0 +1,41 @@
+sequenceDiagram
+    participant User
+    participant RooCode as Roo Code Env
+    participant Blackboard
+    participant IdeationAgent as Ideation Agent
+    participant ElaborationAgent as Elaboration Agent
+    participant CriticAgent as Critic Agent
+
+    Note over User, CriticAgent: Example Ideation Cycle (Simplified)
+
+    User->>RooCode: /mais_start topic="New Feature X"
+    RooCode->>Blackboard: Initialize(topic="New Feature X")
+    RooCode->>IdeationAgent: Activate (Mode: Brainstorming)
+
+    IdeationAgent->>Blackboard: Read Topic
+    Note over IdeationAgent: Generating ideas...
+    IdeationAgent->>Blackboard: Write Idea 1, Idea 2
+
+    Blackboard->>RooCode: Notify Update (New Ideas)
+    RooCode->>ElaborationAgent: Activate
+
+    ElaborationAgent->>Blackboard: Read Idea 1, Idea 2
+    Note over ElaborationAgent: Elaborating...
+    ElaborationAgent->>Blackboard: Write Details for Idea 1
+    ElaborationAgent->>Blackboard: Write Details for Idea 2
+
+    Blackboard->>RooCode: Notify Update (Elaborations)
+    RooCode->>CriticAgent: Activate
+
+    CriticAgent->>Blackboard: Read Idea 1 + Details
+    Note over CriticAgent: Critiquing Idea 1...
+    CriticAgent->>Blackboard: Write Critique for Idea 1
+
+    CriticAgent->>Blackboard: Read Idea 2 + Details
+    Note over CriticAgent: Critiquing Idea 2...
+    CriticAgent->>Blackboard: Write Critique for Idea 2
+
+    Blackboard->>RooCode: Notify Update (Critiques)
+    RooCode->>User: Display Updated Ideas/Critiques
+
+    Note over User, CriticAgent: Cycle continues or mode changes...

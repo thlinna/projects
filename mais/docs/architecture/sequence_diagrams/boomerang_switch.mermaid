@@ -1,0 +1,22 @@
+sequenceDiagram
+    participant AgentX as Triggering Agent (e.g., Ideation)
+    participant Blackboard
+    participant RooInterface as Roo Interface/Mode Controller
+    participant AgentY as Next Agent (e.g., Critic)
+
+    Note over AgentX, AgentY: Example Boomerang Mode Switch
+
+    AgentX->>Blackboard: Write Output (e.g., N new ideas)
+
+    Blackboard->>RooInterface: Notify Update (trigger condition met)
+
+    RooInterface->>RooInterface: Evaluate Boomerang Rules
+    Note right of RooInterface: Rule: "IF Mode=Brainstorming AND NewIdeas > 3 THEN SwitchMode(Evaluation)" matches.
+
+    RooInterface->>RooInterface: Change Internal State: Mode = Evaluation
+
+    RooInterface->>AgentX: Deactivate / Lower Priority
+    RooInterface->>AgentY: Activate / Raise Priority (Now in Evaluation mode)
+
+    Note over AgentY: AgentY is now active due to mode change.
+    AgentY->>Blackboard: Read Data relevant to Evaluation mode

@@ -1,0 +1,28 @@
+graph TD
+    subgraph SPARC Multi-Agent System (Blackboard Architecture)
+        User -- Input/Query --> Blackboard[/<font size=5>📝</font><br/><b>Blackboard</b><br/>Shared Knowledge State/]
+        Blackboard -- Reads Data & Writes Ideas --> Ideation(💡<br/>Ideation Agent)
+        Blackboard -- Reads Ideas & Writes Details --> Elaboration(🧩<br/>Elaboration Agent)
+        Blackboard -- Reads Ideas/Details & Writes Critique --> Critic(🤔<br/>Critic Agent)
+        Blackboard -- Reads Claims & Writes Corrections --> Guardian(🛡️<br/>Guardian Agent)
+        Guardian -- Checks Facts --> ExternalKB[(🌐<br/>External Knowledge / API)]
+        Blackboard -- Reads Conversation & Writes Summary --> Summarizer(📜<br/>Summarizer Agent)
+
+        Ideation -- Writes Ideas --> Blackboard
+        Elaboration -- Writes Details --> Blackboard
+        Critic -- Writes Critique --> Blackboard
+        Guardian -- Writes Corrections --> Blackboard
+        Summarizer -- Writes Summary --> Blackboard
+
+        %% Roo Code Specifics
+        RC[(<font size=5>⚙️</font><br/>Roo Code Environment)] -- Manages Modes & Boomerang --> AgentActivationLogic{Agent Activation Logic}
+        AgentActivationLogic -- Activates/Deactivates --> Ideation
+        AgentActivationLogic -- Activates/Deactivates --> Elaboration
+        AgentActivationLogic -- Activates/Deactivates --> Critic
+        AgentActivationLogic -- Activates/Deactivates --> Guardian
+        AgentActivationLogic -- Activates/Deactivates --> Summarizer
+        Blackboard -- Triggers Mode Change via Boomerang --> RC
+    end
+
+    style Blackboard fill:#fdfd96,stroke:#333,stroke-width:2px
+    style RC fill:#add8e6,stroke:#333,stroke-width:2px
